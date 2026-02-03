@@ -7,6 +7,11 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/eslint',
     '@formkit/auto-animate',
-    '@vite-pwa/nuxt'
-  ]
+    '@vite-pwa/nuxt',
+  ],
+  colorMode: {
+    classSuffix: '',
+    preference: 'dark',
+    fallback:   'dark',
+  },
 })

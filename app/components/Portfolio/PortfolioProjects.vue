@@ -93,7 +93,7 @@
               rel="noopener"
               class="flex items-center gap-1.5 text-base-200/50 hover:text-secondary-300 text-xs font-mono transition-colors"
             >
-              <Globe :size="13" />
+              <Github :size="13" />
               Source Code
             </a>
           </div>
@@ -104,13 +104,68 @@
 </template>
 
 <script setup lang="ts">
-import { ExternalLink, Globe } from 'lucide-vue-next'
+import { ExternalLink, Github, Monitor, ShoppingCart, BarChart3, Smartphone, Mail, Globe } from 'lucide-vue-next'
 
 const categories = ['All', 'Web App', 'E-Commerce', 'Dashboard', 'Mobile']
 
 const activeFilter = ref('All')
 
 const projects = [
+  {
+    id: 1,
+    title: 'TaskFlow AI',
+    category: 'Web App',
+    description: 'A productivity app powered by AI suggestions. Organise tasks, set priorities, and let the ML model predict your next move.',
+    techs: ['Vue 3', 'Nuxt', 'Python', 'FastAPI'],
+    gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+    icon: Monitor,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 2,
+    title: 'ShopNest',
+    category: 'E-Commerce',
+    description: 'Full-featured e-commerce platform with real-time inventory, Stripe payments, and a sleek storefront built for conversion.',
+    techs: ['Next.js', 'Stripe', 'PostgreSQL', 'Prisma'],
+    gradient: 'linear-gradient(135deg, #14532d 0%, #166534 100%)',
+    icon: ShoppingCart,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 3,
+    title: 'Analytics Hub',
+    category: 'Dashboard',
+    description: 'Interactive analytics dashboard with live charts, KPI cards, and filterable data tables for SaaS metrics.',
+    techs: ['React', 'D3.js', 'Node.js', 'WebSocket'],
+    gradient: 'linear-gradient(135deg, #450a0a 0%, #991b1b 100%)',
+    icon: BarChart3,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 4,
+    title: 'FitTrack App',
+    category: 'Mobile',
+    description: 'Cross-platform fitness tracker with workout logging, progress charts, and social challenges between friends.',
+    techs: ['Flutter', 'Firebase', 'Dart'],
+    gradient: 'linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%)',
+    icon: Smartphone,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 5,
+    title: 'MailCraft',
+    category: 'Web App',
+    description: 'Drag-and-drop email campaign builder with template versioning, A/B testing, and delivery analytics.',
+    techs: ['Vue 3', 'Tailwind', 'MongoDB', 'SendGrid'],
+    gradient: 'linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%)',
+    icon: Mail,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
   {
     id: 6,
     title: 'LinkVault',

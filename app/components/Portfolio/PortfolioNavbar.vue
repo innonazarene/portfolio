@@ -70,7 +70,7 @@ onMounted(() => {
         class="hidden md:inline-flex items-center gap-2 border border-accent-400 text-accent-400 text-xs font-mono uppercase tracking-widest px-5 py-2 rounded-full hover:bg-accent-400 hover:text-base-950 transition-all duration-300"
       >
         <Download :size="14" />
-        Resume
+        Download CV
       </a>
       <!-- Mobile Toggle -->
       <button
@@ -106,7 +106,7 @@ onMounted(() => {
             class="flex items-center justify-center gap-2 w-full border border-accent-400 text-accent-400 text-xs font-mono uppercase tracking-widest px-5 py-3 rounded-full hover:bg-accent-400 hover:text-base-950 transition-all duration-300"
           >
             <Download :size="14" />
-            Download Resume
+            Download CV
           </a>
         </div>
       </div>

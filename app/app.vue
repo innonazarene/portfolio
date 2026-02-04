@@ -1,10 +1,11 @@
-<script setup>
+<script setup lang="ts">
 const colorMode = useColorMode()
 
 console.log(colorMode.preference)
 </script>
 <template>
   <div :class="colorMode.preference">
+    <PortfolioNavbar />
     <PortfolioHero />
     <PortfolioAbout />
     <PortfolioProjects />

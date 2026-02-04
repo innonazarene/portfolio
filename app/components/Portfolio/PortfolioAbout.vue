@@ -4,7 +4,7 @@ const highlights = [
   '🚀 Open Source',
   '🎨 Design-Driven',
   '⚡ Web Developer',
-  '👨‍🏫 Part-time Instructor',
+  '👨‍🏫 Former Part-time Instructor',
 ]
 
 const skills = [
@@ -14,6 +14,7 @@ const skills = [
   { name: 'Tailwind CSS',        level: 90 },
   { name: 'MySQL',               level: 85 },
   { name: 'REST APIs',           level: 90 },
+  { name: 'Javascript',          level: 80 },
 ]
 
 const animated = ref(false)

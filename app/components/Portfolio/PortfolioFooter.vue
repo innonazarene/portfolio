@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { Mail, MapPin } from 'lucide-vue-next'
+
+const quickLinks = [
+  { id: 'home',     label: 'Home' },
+  { id: 'about',    label: 'About' },
+  { id: 'projects', label: 'Projects' },
+]
+
+</script>
 <template>
   <footer class="relative border-t border-white/[0.06] py-16 px-6">
     <div class="max-w-6xl mx-auto">
@@ -50,14 +60,3 @@
     </div>
   </footer>
 </template>
-
-<script setup lang="ts">
-import { Mail, MapPin } from 'lucide-vue-next'
-
-const quickLinks = [
-  { id: 'home',     label: 'Home' },
-  { id: 'about',    label: 'About' },
-  { id: 'projects', label: 'Projects' },
-]
-
-</script>

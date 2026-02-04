@@ -39,9 +39,9 @@ onMounted(() => {
       <span class="section-label">Welcome to my world</span>
 
       <!-- heading -->
-      <h1 class="font-display text-5xl sm:text-7xl font-bold leading-[1.05] text-base-50">
+      <h1 class="font-display text-7xl sm:text-7xl font-bold leading-[1.05] text-base-50">
         Hi, I'm
-        <span class="text-gradient-accent"> Tom Ramos Pedales Jr.</span>
+        <span class="text-gradient-accent"> Tom</span>
       </h1>
 
       <!-- animated role line -->

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@formkit/auto-animate',
     '@vite-pwa/nuxt',
+    '@nuxt/fonts',
   ],
   colorMode: {
     classSuffix: '',

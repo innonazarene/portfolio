@@ -35,8 +35,10 @@ onMounted(() => {
 </script>
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-    :class="scrolled ? 'bg-base-950/95 backdrop-blur-lg shadow-lg shadow-black/20 mx-4 mt-3 rounded-2xl border border-white/[0.07]' : 'bg-transparent'"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 mx-4 mt-3 rounded-2xl border"
+    :class="scrolled 
+      ? 'bg-base-950/95 backdrop-blur-lg shadow-lg shadow-black/20 border-white/[0.07]' 
+      : 'bg-transparent border-transparent'"
   >
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
       <!-- Logo -->

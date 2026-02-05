@@ -8,13 +8,18 @@ const highlights = [
 ]
 
 const skills = [
-  { name: 'Laravel / PHP',       level: 90 },
-  { name: 'Vue.js / Nuxt 3 & 4', level: 89 },
-  { name: 'TypeScript',          level: 80 },
+  { name: 'PHP',                 level: 95 },
   { name: 'Tailwind CSS',        level: 90 },
+  { name: 'Vue.js / Nuxt 3 & 4', level: 89 },
+  { name: 'Javascript',          level: 85 },
   { name: 'MySQL',               level: 85 },
-  { name: 'REST APIs',           level: 90 },
-  { name: 'Javascript',          level: 80 },
+  { name: 'Filament PHP',        level: 83 },
+  { name: 'TypeScript',          level: 80 },
+  { name: 'Livewire',            level: 77 },
+  { name: 'Alpine Js',           level: 75 },
+  { name: 'Python',              level: 65 },
+  { name: 'React Js / Next Js',  level: 60 },
+  { name: 'Java',                level: 50 }
 ]
 
 const animated = ref(false)

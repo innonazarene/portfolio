@@ -41,7 +41,7 @@ onMounted(() => {
       <!-- heading -->
       <h1 class="font-display text-7xl sm:text-7xl font-bold leading-[1.05] text-base-50">
         Hi, I'm
-        <span class="text-gradient-accent"> Tom RP</span>
+        <span class="text-gradient-accent"> Tom</span>
       </h1>
 
       <!-- animated role line -->

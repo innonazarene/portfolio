@@ -111,7 +111,7 @@ const projectsData = [
     description: 'A portfolio website built with Vue 3 and Nuxt.',
     techs: ['Vue 3', 'Nuxt 4', 'Tailwind', 'TypeScript'],
     folder: 'portfolio',
-    imageCount: 3,
+    imageCount: 1,
     liveUrl: '#',
     repoUrl: '#',
   },

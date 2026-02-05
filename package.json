@@ -22,6 +22,7 @@
     "@formkit/auto-animate": "^0.9.0",
     "@nuxt/eslint": "^1.13.0",
     "@nuxt/fonts": "^0.13.0",
+    "@nuxt/image": "^2.0.0",
     "@nuxtjs/color-mode": "^4.0.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@vite-pwa/nuxt": "^1.1.0"

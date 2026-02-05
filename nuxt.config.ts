@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@formkit/auto-animate',
     '@vite-pwa/nuxt',
     '@nuxt/fonts',
+    '@nuxt/image',
   ],
   colorMode: {
     classSuffix: '',

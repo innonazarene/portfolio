@@ -229,14 +229,15 @@ const getValidImages = (project: { images: string[] }) => {
             <!-- images -->
             <div class="relative w-full h-full">
               <template v-for="(image, imgIndex) in project.images" :key="imgIndex">
-                <img
+                <NuxtImg
                   v-if="isImageValid(image)"
                   :src="image"
                   :alt="`${project.title} screenshot ${imgIndex + 1}`"
                   class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
                   :class="currentImageIndex[project.id] === imgIndex ? 'opacity-100' : 'opacity-0'"
+                  loading="lazy"
                   @error="handleImageError(image)"
-                >
+                />
               </template>
               <!-- Fallback if no valid images -->
               <div 

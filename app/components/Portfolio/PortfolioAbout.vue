@@ -52,11 +52,12 @@ onMounted(() => {
           <div class="flex items-center gap-4 mb-2">
             <div class="relative group">
               <div class="absolute inset-0 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
-              <img
+              <NuxtImg
                 src="/img/1a8c1651-4238-4b75-98d4-e92da04c6347.jpg"
                 alt="Rustom Pedales Jr."
                 class="relative w-40 h-28 rounded-full object-cover ring-2 ring-accent-400/30 group-hover:ring-accent-400/50 transition-all"
-              >
+                loading="lazy"
+                />
             </div>
             <div>
               <h3 class="text-2xl font-display font-bold text-base-50">Rustom Ramos Pedales Jr.</h3>

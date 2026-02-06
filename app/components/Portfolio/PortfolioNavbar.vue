@@ -5,6 +5,7 @@ const navLinks = [
   { id: 'home',     label: 'Home' },
   { id: 'about',    label: 'About' },
   { id: 'projects', label: 'Projects' },
+  { id: 'github',   label: 'GitHub', href: 'https://github.com/innonazarene', external: true },
 ]
 
 const scrolled      = ref(false)
@@ -50,7 +51,9 @@ onMounted(() => {
       <ul class="hidden md:flex items-center gap-8">
         <li v-for="link in navLinks" :key="link.id">
           <a
-            :href="`#${link.id}`"
+            :href="link.external ? link.href : `#${link.id}`"
+            :target="link.external ? '_blank' : undefined"
+            :rel="link.external ? 'noopener noreferrer' : undefined"
             class="relative text-sm font-body text-base-200 hover:text-accent-400 transition-colors duration-300 py-1"
             :class="activeSection === link.id ? 'text-accent-400' : ''"
           >
@@ -91,9 +94,11 @@ onMounted(() => {
         <ul class="flex flex-col gap-1 px-6 py-4">
           <li v-for="link in navLinks" :key="link.id">
             <a
-              :href="`#${link.id}`"
+              :href="link.external ? link.href : `#${link.id}`"
+              :target="link.external ? '_blank' : undefined"
+              :rel="link.external ? 'noopener noreferrer' : undefined"
               class="block text-base-200 hover:text-accent-400 text-sm py-3 px-3 rounded-lg hover:bg-white/[0.05] transition-all duration-200"
-              @click="mobileOpen = false"
+              @click="!link.external && (mobileOpen = false)"
             >
               {{ link.label }}
             </a>

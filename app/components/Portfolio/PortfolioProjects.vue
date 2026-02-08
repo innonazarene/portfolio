@@ -18,7 +18,7 @@ const projectsData = [
   },
   {
     id: 2,
-    title: 'Tectonic Adventure Edutainment',
+    title: 'Tectonic Adventure Game',
     category: 'Mobile App',
     description: 'Educational adventure game where each level provides learning experiences for children.',
     techs: ['G-develop 5', 'No-Coding'],

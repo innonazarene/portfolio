@@ -77,7 +77,7 @@ onMounted(() => {
           </p>
           <p class="text-base-200/70 leading-relaxed text-base">
             Beyond development, I've had the opportunity to teach as a <strong class="text-base-100">part-time instructor</strong>, 
-            guiding students through web development fundamentals and hands-on projects—an experience that strengthened
+            guiding students through web development fundamentals and hands-on projects - an experience that strengthened
             my communication and leadership skills.
           </p>
 

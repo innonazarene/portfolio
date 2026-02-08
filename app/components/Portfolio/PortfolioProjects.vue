@@ -196,7 +196,7 @@ const getValidImages = (project: { images: string[] }) => {
         Things I've <span class="text-gradient-accent">built</span>
       </h2>
       <p class="text-base-200/50 max-w-xl mb-10">
-        A curated selection of projects — each one a learning adventure.
+        A curated selection of projects - each one a learning adventure.
       </p>
 
       <!-- filter pills -->

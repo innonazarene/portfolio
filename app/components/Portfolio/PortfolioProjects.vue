@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { ExternalLink, ChevronLeft, ChevronRight, Layers } from 'lucide-vue-next'
 
 const categories = ['All', 'Web App', 'Mobile App']
 
@@ -182,21 +182,57 @@ const isImageValid = (imagePath: string) => {
 const getValidImages = (project: { images: string[] }) => {
   return project.images.filter((img: string) => isImageValid(img))
 }
+
+// ── 3D tilt effect ──
+function onCardMouseMove(e: MouseEvent) {
+  const card = e.currentTarget as HTMLElement
+  const rect = card.getBoundingClientRect()
+  const x = (e.clientX - rect.left) / rect.width
+  const y = (e.clientY - rect.top) / rect.height
+  const rotateY = (x - 0.5) * 8
+  const rotateX = (y - 0.5) * -8
+  card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`
+  card.style.setProperty('--glow-x', `${x * 100}%`)
+  card.style.setProperty('--glow-y', `${y * 100}%`)
+}
+
+function onCardMouseLeave(e: MouseEvent) {
+  const card = e.currentTarget as HTMLElement
+  card.style.transform = ''
+}
+
+// ── scroll reveal ──
+const sectionVisible = ref(false)
+const sectionEl = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0]?.isIntersecting) {
+        sectionVisible.value = true
+        observer.disconnect()
+      }
+    },
+    { threshold: 0.08 }
+  )
+  if (sectionEl.value) observer.observe(sectionEl.value)
+  onUnmounted(() => observer.disconnect())
+})
 </script>
 
 <template>
-  <section id="projects" class="relative py-28 px-6 overflow-hidden">
-    <!-- subtle grid bg -->
-    <div class="absolute inset-0 grid-bg opacity-20" />
+  <section id="projects" ref="sectionEl" class="relative py-28 px-6 overflow-hidden">
+    <!-- grid bg -->
+    <div class="absolute inset-0 grid-bg opacity-30" />
 
     <div class="relative z-10 max-w-6xl mx-auto">
       <!-- header -->
       <span class="section-label mb-4 inline-flex">Projects</span>
-      <h2 class="font-display text-4xl sm:text-5xl font-bold text-base-50 leading-tight mb-3">
+      <h2 class="font-display text-3xl sm:text-5xl font-bold text-base-50 leading-tight mb-3">
         Things I've <span class="text-gradient-accent">built</span>
       </h2>
-      <p class="text-base-200/50 max-w-xl mb-10">
-        A curated selection of projects - each one a learning adventure.
+      <p class="text-base-400 max-w-xl mb-10 text-sm">
+        A curated selection of projects — each one a learning adventure.
       </p>
 
       <!-- filter pills -->
@@ -204,11 +240,11 @@ const getValidImages = (project: { images: string[] }) => {
         <button
           v-for="cat in categories"
           :key="cat"
-          class="px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest transition-all duration-300 border"
+          class="px-4 py-1.5 rounded-full text-[0.65rem] font-mono uppercase tracking-[0.15em] transition-all duration-300 border cursor-pointer"
           :class="
             activeFilter === cat
-              ? 'bg-accent-400 text-base-950 border-accent-400'
-              : 'border-white/[0.1] text-base-200/60 hover:border-accent-400/40 hover:text-base-100'
+              ? 'bg-accent-400 text-base-950 border-accent-400 shadow-[0_0_15px_rgba(0,229,255,0.3)]'
+              : 'border-base-700 text-base-400 hover:border-accent-400/40 hover:text-base-200'
           "
           @click="activeFilter = cat"
         >
@@ -221,11 +257,24 @@ const getValidImages = (project: { images: string[] }) => {
         <article
           v-for="(project, i) in filteredProjects"
           :key="project.id"
-          class="glass-card group flex flex-col overflow-hidden hover:border-accent-400/30 hover:shadow-xl hover:shadow-black/30 transition-all duration-500 hover:-translate-y-1"
-          :style="{ animationDelay: `${i * 0.08}s` }"
+          class="glass-card group flex flex-col overflow-hidden transition-all duration-[400ms] will-change-transform"
+          style="--glow-x: 50%; --glow-y: 50%;"
+          :style="{
+            transitionDelay: sectionVisible ? `${i * 70}ms` : '0ms',
+            opacity: sectionVisible ? 1 : 0,
+            transform: sectionVisible ? 'translateY(0)' : 'translateY(30px)',
+          }"
+          @mousemove="onCardMouseMove"
+          @mouseleave="onCardMouseLeave"
         >
+          <!-- interactive glow that follows cursor -->
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl z-[1]"
+            style="background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgba(0,229,255,0.1), transparent 50%);"
+          />
+
           <!-- image carousel -->
-          <div class="relative h-48 overflow-hidden bg-base-900">
+          <div class="relative h-48 overflow-hidden bg-base-900 img-scanline">
             <!-- images -->
             <div class="relative w-full h-full">
               <template v-for="(image, imgIndex) in project.images" :key="imgIndex">
@@ -240,13 +289,13 @@ const getValidImages = (project: { images: string[] }) => {
                 />
               </template>
               <!-- Fallback if no valid images -->
-              <div 
+              <div
                 v-if="getValidImages(project).length === 0"
                 class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-base-800 to-base-900"
               >
                 <div class="text-center">
-                  <span class="text-base-200/30 text-sm font-mono block mb-2">No images found</span>
-                  <span class="text-base-200/20 text-xs font-mono">Add images to /public/projects/{{ project.folder }}/</span>
+                  <Layers :size="24" class="mx-auto mb-2 text-base-600" />
+                  <span class="text-base-500 text-xs font-mono block">No preview</span>
                 </div>
               </div>
             </div>
@@ -254,33 +303,33 @@ const getValidImages = (project: { images: string[] }) => {
             <!-- navigation arrows -->
             <button
               v-if="getValidImages(project).length > 1"
-              class="absolute left-2 top-1/2 -translate-y-1/2 bg-base-950/70 backdrop-blur hover:bg-base-950/90 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+              class="absolute left-2 top-1/2 -translate-y-1/2 bg-base-950/70 backdrop-blur hover:bg-base-900 text-accent-400 p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-[2]"
               @click.stop="prevImage(project.id, project)"
             >
-              <ChevronLeft :size="16" />
+              <ChevronLeft :size="14" />
             </button>
             <button
               v-if="getValidImages(project).length > 1"
-              class="absolute right-2 top-1/2 -translate-y-1/2 bg-base-950/70 backdrop-blur hover:bg-base-950/90 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+              class="absolute right-2 top-1/2 -translate-y-1/2 bg-base-950/70 backdrop-blur hover:bg-base-900 text-accent-400 p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-[2]"
               @click.stop="nextImage(project.id, project)"
             >
-              <ChevronRight :size="16" />
+              <ChevronRight :size="14" />
             </button>
 
             <!-- dots indicator -->
             <div
               v-if="getValidImages(project).length > 1"
-              class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5"
+              class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-[2]"
             >
               <a
                 v-for="(image, imgIndex) in project.images"
                 v-show="isImageValid(image)"
                 :key="imgIndex"
-                class="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                class="w-1.5 h-1.5 rounded-full transition-all duration-300 cursor-pointer"
                 :class="
                   currentImageIndex[project.id] === imgIndex
-                    ? 'bg-accent-400 w-6'
-                    : 'bg-white/40 hover:bg-white/60'
+                    ? 'bg-accent-400 w-5 shadow-[0_0_6px_rgba(0,229,255,0.5)]'
+                    : 'bg-white/30 hover:bg-white/50'
                 "
                 @click.stop="goToImage(project.id, imgIndex, project)"
               />
@@ -288,20 +337,20 @@ const getValidImages = (project: { images: string[] }) => {
 
             <!-- category tag -->
             <span
-              class="absolute top-4 right-4 bg-base-950/70 backdrop-blur text-accent-400 text-xs font-mono px-3 py-1 rounded-full border border-white/[0.08]"
+              class="absolute top-3 right-3 bg-base-950/70 backdrop-blur text-accent-400 text-[0.6rem] font-mono px-2.5 py-1 rounded-full border border-accent-400/15 z-[2]"
             >
               {{ project.category }}
             </span>
           </div>
 
           <!-- content -->
-          <div class="flex flex-col gap-3 p-5 flex-1">
+          <div class="flex flex-col gap-3 p-5 flex-1 relative z-[2]">
             <h3
-              class="text-base-50 font-display font-semibold text-lg group-hover:text-accent-400 transition-colors"
+              class="text-base-50 font-display font-semibold text-base group-hover:text-accent-400 transition-colors duration-300"
             >
               {{ project.title }}
             </h3>
-            <p class="text-base-200/50 text-sm leading-relaxed flex-1">
+            <p class="text-base-400 text-xs leading-relaxed flex-1">
               {{ project.description }}
             </p>
 
@@ -310,7 +359,7 @@ const getValidImages = (project: { images: string[] }) => {
               <span
                 v-for="tech in project.techs"
                 :key="tech"
-                class="bg-white/[0.05] text-base-200/60 text-xs font-mono px-2.5 py-0.5 rounded-md"
+                class="bg-accent-400/[0.06] text-accent-300/70 text-[0.6rem] font-mono px-2 py-0.5 rounded border border-accent-400/10"
               >
                 {{ tech }}
               </span>
@@ -318,21 +367,21 @@ const getValidImages = (project: { images: string[] }) => {
           </div>
 
           <!-- links row -->
-          <div class="flex items-center justify-between px-5 py-4 border-t border-white/[0.06]">
+          <div class="flex items-center justify-between px-5 py-3.5 border-t border-accent-400/[0.06] relative z-[2]">
             <a
               :href="project.liveUrl"
               target="_blank"
               rel="noopener"
-              class="flex items-center gap-1.5 text-base-200/50 hover:text-accent-400 text-xs font-mono transition-colors"
+              class="flex items-center gap-1.5 text-base-400 hover:text-accent-400 text-xs font-mono transition-colors"
             >
-              <ExternalLink :size="13" />
+              <ExternalLink :size="12" />
               Live Demo
             </a>
             <a
               :href="project.repoUrl"
               target="_blank"
               rel="noopener"
-              class="flex items-center gap-1.5 text-base-200/50 hover:text-secondary-300 text-xs font-mono transition-colors"
+              class="flex items-center gap-1.5 text-base-400 hover:text-secondary-300 text-xs font-mono transition-colors"
             >
               Source Code
             </a>

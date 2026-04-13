@@ -1,10 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   ssr: false,
   devtools: { enabled: true },
   modules: [
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxt/eslint',
     '@formkit/auto-animate',
@@ -12,10 +13,14 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/image',
   ],
+  css: ['~/assets/css/tailwind.css'],
   colorMode: {
     classSuffix: '',
     preference: 'dark',
     fallback:   'dark',
+  },
+  vite: {
+    plugins: [tailwindcss()],
   },
   pwa: {
     registerType: 'autoUpdate',
@@ -23,8 +28,8 @@ export default defineNuxtConfig({
       name: 'Rustom Pedales Jr. - Full-Stack Developer Portfolio',
       short_name: 'Tom Portfolio',
       description: 'Full-Stack Web Developer portfolio showcasing Laravel, PHP, Vue.js, and Nuxt projects',
-      theme_color: '#000000', // Adjust to match your site's theme
-      background_color: '#ffffff',
+      theme_color: '#070810',
+      background_color: '#070810',
       display: 'standalone',
       start_url: '/',
       scope: '/',

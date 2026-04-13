@@ -22,7 +22,7 @@ const currentYear = new Date().getFullYear()
           <div class="flex items-center gap-2">
             <Terminal :size="15" class="text-accent-400 opacity-60" />
             <span class="text-base-50 font-mono text-sm font-semibold">
-              rustom<span class="text-accent-400">_</span>
+              @inonazarene<span class="text-accent-400">_</span>
             </span>
           </div>
           <p class="text-base-500 text-xs leading-relaxed max-w-xs font-mono">

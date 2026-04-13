@@ -62,7 +62,7 @@ onMounted(() => {
       <a href="#home" class="group flex items-center gap-2">
         <Terminal :size="16" class="text-accent-400 opacity-60 group-hover:opacity-100 transition-opacity" />
         <span class="text-base-50 font-mono text-sm font-semibold">
-          Tom<span class="text-accent-400">_</span><span class="animate-pulse text-accent-400">|</span>
+          @inonazarene<span class="text-accent-400">_</span><span class="animate-pulse text-accent-400">|</span>
         </span>
       </a>
 

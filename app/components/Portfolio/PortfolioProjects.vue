@@ -9,7 +9,7 @@ const projectsData = [
     id: 1,
     title: 'Pawurelove',
     category: 'Mobile App',
-    description: 'Pawurelove is a web application for dog lovers.',
+    description: 'Pawurelove is a android/ios app for dog lovers.',
     techs: ['flutter', 'dart'],
     folder: 'pawurelove',
     imageCount: 5,

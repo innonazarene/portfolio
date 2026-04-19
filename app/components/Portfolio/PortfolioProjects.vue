@@ -12,7 +12,7 @@ const projectsData = [
     description: 'Pawurelove is a web application for dog lovers.',
     techs: ['flutter', 'dart'],
     folder: 'pawurelove',
-    imageCount: 10,
+    imageCount: 5,
     liveUrl: '#',
     repoUrl: 'https://github.com/innonazarene/pawurelove',
   },

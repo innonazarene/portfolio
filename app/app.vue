@@ -1,15 +1,6 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
-useHead({
-  htmlAttrs: { lang: 'en' },
-  link: [
-    { rel: 'apple-touch-icon', href: '/pwa-icon-512x512.png' },
-  ],
-  meta: [
-    { name: 'description', content: 'Rustom Pedales Jr. — Full-Stack Developer portfolio showcasing Laravel, PHP, Vue.js, and Nuxt projects.' },
-    { name: 'theme-color', content: '#070810' },
-  ],
-})
+
 console.log(colorMode.preference)
 </script>
 

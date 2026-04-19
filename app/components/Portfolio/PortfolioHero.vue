@@ -38,7 +38,7 @@ async function eraseText() {
 async function cycleRoles() {
   let idx = 0
   while (running) {
-    await typeText(roles[idx])
+    await typeText(roles[idx]+"")
     await sleep(2200)
     await eraseText()
     await sleep(400)

@@ -153,7 +153,7 @@ const projectsData = [
     title: 'Barangay-Bulletin',
     category: 'Web App',
     description: 'Barangay-Bulletin is a web application for barangay operations.',
-    techs: ['flutter', 'dart'],
+    techs: ['Laravel', 'Inertia', 'Vue 3', 'Tailwind', 'TypeScript'],
     folder: 'barangay-bulletin',
     imageCount: 5,
     liveUrl: '#',

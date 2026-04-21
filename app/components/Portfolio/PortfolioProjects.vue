@@ -142,7 +142,7 @@ const projectsData = [
     title: 'Clinic Management System',
     category: 'Web App',
     description: 'Clinic management system for clinic operations.',
-    techs: ['flutter', 'dart'],
+    techs: ['Laravel', 'Inertia', 'Vue 3', 'Tailwind', 'TypeScript'],
     folder: 'clinic-management-system',
     imageCount: 4,
     liveUrl: '#',

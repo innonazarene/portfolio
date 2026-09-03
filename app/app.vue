@@ -1,39 +1,32 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
-
-console.log(colorMode.preference)
+colorMode.preference = 'dark'
 </script>
 
 <template>
-  <div class="scanline-overlay">
-    <!-- Canvas particle background -->
+  <div class="relative min-h-screen bg-black text-base-200 selection:bg-vermilion-500/30 selection:text-base-50">
+    <!-- Three.js 3D Sakura interactive background -->
     <PortfolioCanvasBackground />
 
-    <!-- All content above the canvas -->
+    <!-- Main Japanese portfolio content -->
     <div class="relative z-10">
       <PortfolioNavbar />
-      <PortfolioHero />
-      <PortfolioAbout />
-      <PortfolioProjects />
+      <main>
+        <PortfolioHero />
+        <PortfolioAbout />
+        <PortfolioProjects />
+      </main>
       <PortfolioFooter />
     </div>
   </div>
 </template>
 
 <style>
-/* Dark mode is the only mode for cyberpunk */
+html,
 body {
-  background-color: #070810;
-  color: #8e96b8;
-}
-
-.dark body {
-  background-color: #070810;
-  color: #8e96b8;
-}
-
-.sepia body {
-  background-color: #070810;
-  color: #8e96b8;
+  background-color: #000000;
+  color: #c8c3b7;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  overflow-x: hidden;
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Menu, X, Download, Terminal } from 'lucide-vue-next'
+import { Menu, X, Download } from 'lucide-vue-next'
+import gsap from 'gsap'
 
 const navLinks = [
   { id: 'home',     label: 'Home' },
@@ -11,16 +12,14 @@ const navLinks = [
 const scrolled      = ref(false)
 const mobileOpen    = ref(false)
 const activeSection = ref('home')
+const navRef        = ref<HTMLElement | null>(null)
 
 // ── scroll shadow toggle ──
 onMounted(() => {
-  const onScroll = () => { scrolled.value = window.scrollY > 40 }
+  const onScroll = () => { scrolled.value = window.scrollY > 30 }
   window.addEventListener('scroll', onScroll, { passive: true })
-  onUnmounted(() => window.removeEventListener('scroll', onScroll))
-})
 
-// ── active-section via IntersectionObserver ──
-onMounted(() => {
+  // Active-section via IntersectionObserver
   const sections = document.querySelectorAll('section[id]')
   const observer = new IntersectionObserver(
     (entries) => {
@@ -28,57 +27,65 @@ onMounted(() => {
         if (e.isIntersecting) activeSection.value = e.target.id
       })
     },
-    { rootMargin: '-40% 0px -50% 0px' }
+    { rootMargin: '-35% 0px -45% 0px' }
   )
   sections.forEach((s) => observer.observe(s))
-  onUnmounted(() => observer.disconnect())
+
+  // GSAP Entrance
+  if (navRef.value) {
+    gsap.fromTo(
+      navRef.value,
+      { y: -30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out', delay: 0.1 }
+    )
+  }
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', onScroll)
+    observer.disconnect()
+  })
 })
 </script>
 
 <template>
   <nav
-    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 mx-3 mt-3 rounded-xl border-0"
+    ref="navRef"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 mx-3 sm:mx-6 mt-3 rounded-2xl border"
     :class="scrolled
-      ? 'nav-scrolled'
-      : 'bg-transparent'"
+      ? 'bg-base-950/85 backdrop-blur-xl border-gold-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
+      : 'bg-transparent border-transparent'"
   >
-    <!-- HUD corner brackets -->
-    <div
-      v-if="scrolled"
-      class="absolute inset-0 rounded-xl pointer-events-none"
-    >
-      <!-- top-left -->
-      <span class="absolute top-0 left-0 w-4 h-4 border-t border-l border-accent-400/30 rounded-tl-xl" />
-      <!-- top-right -->
-      <span class="absolute top-0 right-0 w-4 h-4 border-t border-r border-accent-400/30 rounded-tr-xl" />
-      <!-- bottom-left -->
-      <span class="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-accent-400/30 rounded-bl-xl" />
-      <!-- bottom-right -->
-      <span class="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-accent-400/30 rounded-br-xl" />
-    </div>
-
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between relative">
-      <!-- Logo — terminal style -->
-      <a href="#home" class="group flex items-center gap-2">
-        <Terminal :size="16" class="text-accent-400 opacity-60 group-hover:opacity-100 transition-opacity" />
-        <span class="text-base-50 font-mono text-sm font-semibold">
-          @inonazarene<span class="text-accent-400">_</span><span class="animate-pulse text-accent-400">|</span>
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 py-3.5 flex items-center justify-between relative">
+      <!-- Logo with Red Stamp Seal -->
+      <a href="#home" class="group flex items-center gap-3">
+        <span class="hanko-stamp text-xs py-0.5 px-2 group-hover:scale-105 transition-transform duration-300 font-serif">
+          RP
         </span>
+        <div class="flex flex-col">
+          <span class="font-display text-base-50 font-bold text-sm tracking-wider group-hover:text-sakura-300 transition-colors">
+            Rustom Pedales
+          </span>
+          <span class="text-[0.6rem] font-serif tracking-[0.2em] text-base-400 -mt-0.5 uppercase">
+            Full-Stack Developer
+          </span>
+        </div>
       </a>
 
       <!-- Desktop Links -->
-      <ul class="hidden md:flex items-center gap-8">
+      <ul class="hidden md:flex items-center gap-9">
         <li v-for="link in navLinks" :key="link.id">
           <a
             :href="link.external ? link.href : `#${link.id}`"
             :target="link.external ? '_blank' : undefined"
             :rel="link.external ? 'noopener noreferrer' : undefined"
-            class="neon-link text-xs font-mono uppercase tracking-[0.15em] py-1 transition-colors duration-300"
+            class="zen-link group flex items-center py-1 transition-colors duration-300"
             :class="activeSection === link.id
-              ? 'text-accent-400 active'
-              : 'text-base-300 hover:text-accent-400'"
+              ? 'text-vermilion-400 active'
+              : 'text-base-300 hover:text-base-100'"
           >
-            {{ link.label }}
+            <span class="text-xs font-medium tracking-wider">
+              {{ link.label }}
+            </span>
           </a>
         </li>
       </ul>
@@ -87,20 +94,20 @@ onMounted(() => {
       <a
         href="/Rustom R Pedales Jr.pdf"
         download
-        class="hidden md:inline-flex cyber-btn-outline !py-2 !px-4 !text-[0.65rem]"
+        class="hidden md:inline-flex zen-btn-outline !py-2 !px-4 !text-xs !rounded-full"
       >
-        <Download :size="13" />
-        Resume
+        <Download :size="13" class="text-gold-400" />
+        <span>Resume CV</span>
       </a>
 
       <!-- Mobile Toggle -->
       <button
-        class="md:hidden text-base-100 p-2 rounded-lg hover:bg-accent-400/10 transition-colors"
+        class="md:hidden text-base-200 p-2 rounded-lg hover:bg-white/5 transition-colors"
         aria-label="Toggle menu"
         @click="mobileOpen = !mobileOpen"
       >
-        <Menu v-if="!mobileOpen" :size="20" />
-        <X v-else :size="20" />
+        <Menu v-if="!mobileOpen" :size="22" />
+        <X v-else :size="22" />
       </button>
     </div>
 
@@ -108,30 +115,29 @@ onMounted(() => {
     <Transition name="slide-down">
       <div
         v-if="mobileOpen"
-        class="md:hidden border-t border-accent-400/10 bg-base-950/95 backdrop-blur-xl rounded-b-xl"
+        class="md:hidden border-t border-gold-500/15 bg-base-950/95 backdrop-blur-2xl rounded-b-2xl px-6 py-5 shadow-2xl"
       >
-        <ul class="flex flex-col gap-1 px-6 py-4">
+        <ul class="flex flex-col gap-2">
           <li v-for="link in navLinks" :key="link.id">
             <a
               :href="link.external ? link.href : `#${link.id}`"
               :target="link.external ? '_blank' : undefined"
               :rel="link.external ? 'noopener noreferrer' : undefined"
-              class="block text-base-200 hover:text-accent-400 text-sm font-mono py-3 px-3 rounded-lg hover:bg-accent-400/5 transition-all duration-200"
+              class="flex items-center justify-between text-base-200 hover:text-sakura-300 text-sm font-medium py-2.5 px-3 rounded-xl hover:bg-white/5 transition-all duration-200"
               @click="!link.external && (mobileOpen = false)"
             >
-              <span class="text-accent-400/40 mr-2">&gt;</span>
-              {{ link.label }}
+              <span>{{ link.label }}</span>
             </a>
           </li>
         </ul>
-        <div class="px-6 pb-5">
+        <div class="mt-4 pt-4 border-t border-white/5">
           <a
             href="/Rustom R Pedales Jr.pdf"
             download
-            class="flex items-center justify-center gap-2 w-full cyber-btn-outline"
+            class="flex items-center justify-center gap-2 w-full zen-btn-primary !py-2.5 !text-xs !rounded-xl"
           >
             <Download :size="14" />
-            Download CV
+            <span>Download Resume</span>
           </a>
         </div>
       </div>
@@ -140,16 +146,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.nav-scrolled {
-  background: rgba(7, 8, 16, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-}
-
 .slide-down-enter-active,
 .slide-down-leave-active {
-  transition: max-height 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s ease;
+  transition: max-height 0.35s cubic-bezier(.16, 1, .3, 1), opacity 0.25s ease;
   overflow: hidden;
   max-height: 400px;
 }

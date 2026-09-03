@@ -26,23 +26,26 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#070810' },
+        { name: 'theme-color', content: '#000000' },
         { name: 'title', content: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio' },
-        { name: 'description', content: 'Full-Stack Web Developer portfolio showcasing Laravel, PHP, Vue.js, Nuxt and Flutter projects.' },
+        { name: 'description', content: 'Crafting digital experiences with Laravel, Vue.js, Nuxt & modern web technologies. Guided by precision, clean architecture, and modern aesthetics.' },
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio' },
-        { property: 'og:description', content: 'Full-Stack Web Developer portfolio showcasing Laravel, PHP, Vue.js, Nuxt and Flutter projects.' },
-        { property: 'og:image', content: '/pwa-icon-512x512.png' }, // For optimal results, change to absolute URL in the future
+        { property: 'og:description', content: 'Crafting digital experiences with Laravel, Vue.js, Nuxt & modern web technologies.' },
+        { property: 'og:image', content: '/pwa-icon-512x512.png' },
         // Twitter
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio' },
-        { name: 'twitter:description', content: 'Full-Stack Web Developer portfolio showcasing Laravel, PHP, Vue.js, Nuxt and Flutter projects.' },
-        { name: 'twitter:image', content: '/pwa-icon-512x512.png' } // For optimal results, change to absolute URL in the future
+        { name: 'twitter:description', content: 'Crafting digital experiences with Laravel, Vue.js, Nuxt & modern web technologies.' },
+        { name: 'twitter:image', content: '/pwa-icon-512x512.png' }
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/pwa-icon-192x192.png' },
-        { rel: 'apple-touch-icon', href: '/pwa-icon-512x512.png' }
+        { rel: 'apple-touch-icon', href: '/pwa-icon-512x512.png' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap' }
       ]
     }
   },
@@ -55,8 +58,8 @@ export default defineNuxtConfig({
       name: 'Rustom Pedales Jr. - Full-Stack Developer Portfolio',
       short_name: 'Tom Portfolio',
       description: 'Full-Stack Web Developer portfolio showcasing Laravel, PHP, Vue.js, and Nuxt projects',
-      theme_color: '#070810',
-      background_color: '#070810',
+      theme_color: '#000000',
+      background_color: '#000000',
       display: 'standalone',
       start_url: '/',
       scope: '/',

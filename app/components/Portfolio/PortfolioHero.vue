@@ -100,8 +100,8 @@ onMounted(() => {
           <span class="text-[0.68rem] sm:text-xs font-serif tracking-[0.35em] text-gold-400 uppercase">
             Rustom Pedales Jr. &bull; Software Craftsman
           </span>
-          <h1 class="font-display text-3xl sm:text-5xl lg:text-[3.6rem] font-bold tracking-tight text-white leading-[1.1]">
-            Architecting <span class="bg-gradient-to-r from-white via-base-100 to-base-400 bg-clip-text text-transparent">Scalable</span> &amp; Modern Systems<span class="text-vermilion-500">.</span>
+          <h1 class="font-katsuno text-2xl sm:text-3xl lg:text-[2.6rem] font-normal tracking-wide text-white leading-[1.45] sm:leading-[1.5] my-1">
+            Architecting Scalable &amp; Modern Systems<span class="text-vermilion-500">.</span>
           </h1>
         </div>
 
@@ -206,3 +206,9 @@ onMounted(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.font-katsuno {
+  font-family: 'Katsuno Japan Demo', cursive, sans-serif;
+}
+</style>

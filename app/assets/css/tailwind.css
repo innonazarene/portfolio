@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Katsuno Japan Demo';
+  src: url('/fonts/Katsuno Japan Demo.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Katsuno Japan Demo';
+  src: url('/fonts/Katsuno Japan Italic Demo.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* ═══════════════════════════════════════════════
    JAPANESE ZEN & WABI-SABI DESIGN SYSTEM — Tailwind CSS v4
    ═══════════════════════════════════════════════ */
@@ -54,6 +70,7 @@
   /* ── Typography ── */
   --font-display: 'Cinzel', Georgia, serif;
   --font-serif: 'Cinzel', Georgia, serif;
+  --font-katsuno: 'Katsuno Japan Demo', sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 

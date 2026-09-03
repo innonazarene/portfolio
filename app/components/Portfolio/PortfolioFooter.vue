@@ -84,19 +84,11 @@ const currentYear = new Date().getFullYear()
       </div>
 
       <!-- Divider & Copyright -->
-      <div class="border-t border-gold-500/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="border-t border-gold-500/10 pt-8 flex items-center justify-center text-center">
         <p class="text-base-500 text-xs font-serif">
           &copy; {{ currentYear }} Rustom Pedales Jr.
           <span class="text-vermilion-500/40 mx-2">◈</span>
           All rights reserved.
-        </p>
-        <p class="text-base-500 text-xs font-serif flex items-center gap-2">
-          <span>Crafted with</span>
-          <span class="text-vermilion-500">Nuxt 4</span>
-          <span>•</span>
-          <span class="text-sakura-300">Three.js 3D</span>
-          <span>•</span>
-          <span class="text-gold-400">GSAP</span>
         </p>
       </div>
     </div>

@@ -57,9 +57,9 @@ onMounted(() => {
     </div>
 
     <!-- 2-Column Hero Content Grid (Expands to fill height between top and bottom lines) -->
-    <div class="relative z-10 max-w-6xl w-full flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 items-stretch justify-between mx-auto py-1">
+    <div class="relative z-10 max-w-6xl w-full flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 items-center justify-center mx-auto py-1">
       <!-- Left Column (7 cols): Narrative & Actions (Compressed & Centered) -->
-      <div class="lg:col-span-7 flex flex-col justify-center gap-3.5 sm:gap-4.5 items-center text-center lg:items-start lg:text-left h-full py-1">
+      <div class="lg:col-span-7 flex flex-col justify-center gap-3.5 sm:gap-4.5 items-center text-center lg:items-start lg:text-left py-1">
         <!-- Top: Headline & Identity -->
         <div class="hero-fade-in flex flex-col items-center lg:items-start">
           <span class="block text-[0.7rem] sm:text-xs md:text-sm font-serif tracking-[0.25em] sm:tracking-[0.35em] text-base-300 uppercase text-center lg:text-left mb-3 sm:mb-4 lg:mb-5">
@@ -112,72 +112,72 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Right Column (5 cols): Full-Height 2x2 Bento Metric Cards Grid with Clean Typography -->
-      <div class="lg:col-span-5 grid grid-cols-2 gap-3.5 sm:gap-4 w-full h-full">
+      <!-- Right Column (5 cols): Compact 2x2 Bento Metric Cards Grid -->
+      <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-3.5 w-full">
         <!-- Card 1: 17+ Production Systems -->
-        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
+        <div class="hero-fade-in washi-card p-3.5 sm:p-4 lg:p-4.5 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left hover:border-white/20 transition-colors duration-300 gap-2">
           <div>
-            <span class="font-katsuno text-3xl sm:text-4xl lg:text-[2.6rem] font-normal tracking-wide text-white leading-none">17+</span>
+            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.2rem] font-normal tracking-wide text-white leading-none">17+</span>
           </div>
 
-          <div class="my-auto py-2">
-            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">12 Web &bull; 5 Mobile Apps</span>
-            <span class="text-[0.7rem] sm:text-xs font-mono text-emerald-400 mt-1 block">100% Shipped to Production</span>
+          <div class="py-0.5">
+            <span class="text-xs sm:text-[0.78rem] font-mono text-base-200 block">12 Web &bull; 5 Mobile Apps</span>
+            <span class="text-[0.68rem] sm:text-[0.72rem] font-mono text-emerald-400 mt-0.5 block">100% Shipped to Production</span>
           </div>
 
           <div class="pt-2 border-t border-white/5">
-            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Production Systems</span>
-            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Enterprise, Web &amp; Mobile UI</span>
+            <span class="text-[0.7rem] sm:text-xs font-serif text-base-200 uppercase tracking-wider block font-semibold">Production Systems</span>
+            <span class="text-[0.62rem] sm:text-[0.68rem] text-base-400 block mt-0.5">Enterprise, Web &amp; Mobile UI</span>
           </div>
         </div>
 
         <!-- Card 2: FULL-STACK & Core Specialization -->
-        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
+        <div class="hero-fade-in washi-card p-3.5 sm:p-4 lg:p-4.5 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left hover:border-white/20 transition-colors duration-300 gap-2">
           <div>
-            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.2rem] font-normal tracking-wide text-white leading-tight">Full-Stack</span>
+            <span class="font-katsuno text-xl sm:text-2xl lg:text-[1.85rem] font-normal tracking-wide text-white leading-tight">Full-Stack</span>
           </div>
 
-          <div class="my-auto py-2">
-            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">7+ Years Experience</span>
+          <div class="py-0.5">
+            <span class="text-xs sm:text-[0.78rem] font-mono text-base-200 block">7+ Years Experience</span>
           </div>
 
           <div class="pt-2 border-t border-white/5">
-            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Core Specialization</span>
-            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Laravel &bull; React &bull; Vue 3 &bull; Nuxt</span>
+            <span class="text-[0.7rem] sm:text-xs font-serif text-base-200 uppercase tracking-wider block font-semibold">Core Specialization</span>
+            <span class="text-[0.62rem] sm:text-[0.68rem] text-base-400 block mt-0.5">Laravel &bull; React &bull; Vue 3 &bull; Nuxt</span>
           </div>
         </div>
 
         <!-- Card 3: 100% Engineering Craft -->
-        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
+        <div class="hero-fade-in washi-card p-3.5 sm:p-4 lg:p-4.5 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left hover:border-white/20 transition-colors duration-300 gap-2">
           <div>
-            <span class="font-katsuno text-3xl sm:text-4xl lg:text-[2.6rem] font-normal tracking-wide text-white leading-none">100%</span>
+            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.2rem] font-normal tracking-wide text-white leading-none">100%</span>
           </div>
 
-          <div class="my-auto py-2">
-            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">End-to-End Delivery</span>
-            <span class="text-[0.7rem] sm:text-xs font-mono text-base-400 mt-1 block">Architecture to UI &bull; APIs</span>
+          <div class="py-0.5">
+            <span class="text-xs sm:text-[0.78rem] font-mono text-base-200 block">End-to-End Delivery</span>
+            <span class="text-[0.68rem] sm:text-[0.72rem] font-mono text-base-400 mt-0.5 block">Architecture to UI &bull; APIs</span>
           </div>
 
           <div class="pt-2 border-t border-white/5">
-            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Engineering Craft</span>
-            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Modular &bull; Scalable &bull; Clean</span>
+            <span class="text-[0.7rem] sm:text-xs font-serif text-base-200 uppercase tracking-wider block font-semibold">Engineering Craft</span>
+            <span class="text-[0.62rem] sm:text-[0.68rem] text-base-400 block mt-0.5">Modular &bull; Scalable &bull; Clean</span>
           </div>
         </div>
 
         <!-- Card 4: ACTIVE & Availability -->
-        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
+        <div class="hero-fade-in washi-card p-3.5 sm:p-4 lg:p-4.5 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left hover:border-white/20 transition-colors duration-300 gap-2">
           <div>
-            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.4rem] font-normal tracking-wide text-white leading-none">Active</span>
+            <span class="font-katsuno text-xl sm:text-2xl lg:text-[2rem] font-normal tracking-wide text-white leading-none">Active</span>
           </div>
 
-          <div class="my-auto py-2">
-            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">Full-Stack &bull; Architect</span>
-            <span class="text-[0.7rem] sm:text-xs font-mono text-emerald-400 mt-1 block">Response Speed &lt; 24h</span>
+          <div class="py-0.5">
+            <span class="text-xs sm:text-[0.78rem] font-mono text-base-200 block">Full-Stack &bull; Architect</span>
+            <span class="text-[0.68rem] sm:text-[0.72rem] font-mono text-emerald-400 mt-0.5 block">Response Speed &lt; 24h</span>
           </div>
 
           <div class="pt-2 border-t border-white/5">
-            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Availability</span>
-            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Remote &amp; Contract Ready</span>
+            <span class="text-[0.7rem] sm:text-xs font-serif text-base-200 uppercase tracking-wider block font-semibold">Availability</span>
+            <span class="text-[0.62rem] sm:text-[0.68rem] text-base-400 block mt-0.5">Remote &amp; Contract Ready</span>
           </div>
         </div>
       </div>

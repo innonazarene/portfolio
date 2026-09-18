@@ -9,16 +9,13 @@ import {
   Maximize2,
 } from 'lucide-vue-next'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
-}
+const { currentTab } = usePortfolioNavigation()
 
 const categories = [
-  { id: 'All',        label: 'All Works' },
-  { id: 'Web App',    label: 'Web Applications' },
-  { id: 'Mobile App', label: 'Mobile Applications' },
+  { id: 'All',        label: 'All Works',           shortLabel: 'All Works' },
+  { id: 'Web App',    label: 'Web Applications',    shortLabel: 'Web Apps' },
+  { id: 'Mobile App', label: 'Mobile Applications', shortLabel: 'Mobile Apps' },
 ]
 
 const activeFilter = ref('All')
@@ -395,65 +392,70 @@ const onKeyDown = (e: KeyboardEvent) => {
   if (e.key === 'ArrowLeft') modalPrevImage()
 }
 
-// ScrollTrigger animation
+// Slide card animation
 const sectionEl = ref<HTMLElement | null>(null)
+const animated = ref(false)
+
+const playCardsAnimation = () => {
+  if (animated.value) return
+  animated.value = true
+  nextTick(() => {
+    gsap.fromTo(
+      '.project-card-item',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }
+    )
+  })
+}
+
+watch(currentTab, (newTab) => {
+  if (newTab === 'projects') {
+    playCardsAnimation()
+  }
+})
 
 onMounted(() => {
   window.addEventListener('keydown', onKeyDown)
-
-  if (!sectionEl.value) return
-  const ctx = gsap.context(() => {
-    ScrollTrigger.create({
-      trigger: sectionEl.value,
-      start: 'top 75%',
-      onEnter: () => {
-        gsap.fromTo(
-          '.project-card-item',
-          { opacity: 0, y: 35 },
-          { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }
-        )
-      },
-      once: true,
-    })
-  }, sectionEl.value)
+  if (currentTab.value === 'projects') {
+    playCardsAnimation()
+  }
 
   onUnmounted(() => {
     window.removeEventListener('keydown', onKeyDown)
-    ctx.revert()
   })
 })
 </script>
 
 <template>
-  <section id="projects" ref="sectionEl" class="relative py-28 px-6 overflow-hidden">
+  <div id="projects" ref="sectionEl" class="relative w-full h-full overflow-y-auto no-scrollbar pt-10 pb-20 px-5 sm:px-8">
     <!-- Section Content -->
     <div class="relative z-10 max-w-6xl mx-auto">
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div class="flex flex-col items-start gap-3">
-          <span class="section-label">Selected Works</span>
-          <h2 class="font-display text-3xl sm:text-5xl font-bold text-base-50 tracking-tight">
-            Things I Have <span class="text-gradient-accent">Engineered</span>
+          <h2 class="font-katsuno text-xl sm:text-3xl lg:text-4xl font-normal tracking-wide text-white leading-[1.35] sm:leading-[1.4] mb-1">
+            Things I Have <span class="text-vermilion-500">Engineered</span>
           </h2>
-          <p class="text-base-300 font-serif text-sm sm:text-base max-w-xl">
-            A curated collection of web platforms, enterprise systems, and mobile applications engineered with precision. Click any project to open full details.
+          <p class="text-base-300 font-serif text-xs sm:text-sm max-w-xl leading-relaxed">
+            A curated collection of 17 systems and applications engineered with precision. Click any project to inspect screenshots and details.
           </p>
         </div>
 
-        <!-- Filter Tabs -->
-        <div class="flex flex-wrap gap-2.5 self-start md:self-auto">
+        <!-- Filter Tabs (Equal 3-column width on mobile) -->
+        <div class="grid grid-cols-3 gap-1.5 sm:gap-2.5 w-full sm:w-auto">
           <button
             v-for="cat in categories"
             :key="cat.id"
-            class="px-5 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all duration-300 border cursor-pointer"
+            class="w-full sm:w-auto px-2 sm:px-5 py-2 sm:py-1.5 rounded-full text-[0.72rem] sm:text-xs font-medium tracking-wider transition-all duration-300 border cursor-pointer flex items-center justify-center text-center"
             :class="
               activeFilter === cat.id
-                ? 'bg-vermilion-500 text-white border-vermilion-500 shadow-[0_4px_16px_rgba(224,49,49,0.35)]'
-                : 'border-gold-500/20 text-base-300 bg-base-900/60 backdrop-blur hover:border-gold-500/40 hover:text-base-100'
+                ? 'bg-vermilion-500 text-white border-vermilion-500 font-semibold'
+                : 'border-white/10 text-base-300 bg-base-900/60 backdrop-blur hover:border-white/25 hover:text-base-100'
             "
             @click="selectFilter(cat.id)"
           >
-            {{ cat.label }}
+            <span class="sm:hidden whitespace-nowrap">{{ cat.shortLabel }}</span>
+            <span class="hidden sm:inline whitespace-nowrap">{{ cat.label }}</span>
           </button>
         </div>
       </div>
@@ -465,18 +467,18 @@ onMounted(() => {
         <article
           v-for="project in filteredProjects"
           :key="project.id"
-          class="project-card-item washi-card group flex flex-col overflow-hidden border border-gold-500/15 hover:border-vermilion-500/50 hover:shadow-[0_8px_30px_rgba(224,49,49,0.15)] transition-all duration-300 -translate-y-0 hover:-translate-y-1 cursor-pointer"
+          class="project-card-item washi-card group flex flex-col overflow-hidden border border-white/10 bg-black hover:border-white/25 transition-all duration-300 -translate-y-0 hover:-translate-y-1 cursor-pointer"
           @click="openModal(project)"
         >
           <!-- Preview with object-contain and fitted padding -->
-          <div class="relative h-48 sm:h-52 overflow-hidden bg-base-950/90 border-b border-gold-500/10 flex items-center justify-center p-3">
-            <div class="relative w-full h-full flex items-center justify-center">
+          <div class="relative h-48 sm:h-52 overflow-hidden bg-black border-b border-white/10 flex items-center justify-center p-3">
+            <div class="relative w-full h-full flex items-center justify-center bg-black">
               <template v-for="(image, imgIndex) in project.images" :key="imgIndex">
                 <NuxtImg
                   v-if="isImageValid(image)"
                   :src="image"
                   :alt="`${project.title} screenshot ${imgIndex + 1}`"
-                  class="absolute inset-0 m-auto max-w-full max-h-full object-contain drop-shadow-md rounded transition-opacity duration-500"
+                  class="absolute inset-0 m-auto max-w-full max-h-full object-contain drop-shadow-md rounded transition-opacity duration-500 bg-black"
                   :class="currentImageIndex[project.id] === imgIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'"
                   loading="lazy"
                   @error="handleImageError(image)"
@@ -486,7 +488,7 @@ onMounted(() => {
               <!-- Fallback when no preview is available -->
               <div
                 v-if="getValidImages(project).length === 0"
-                class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-base-900 to-base-950"
+                class="relative w-full h-full flex items-center justify-center bg-black"
               >
                 <div class="text-center">
                   <FolderKanban :size="26" class="mx-auto mb-2 text-base-600" />
@@ -515,7 +517,7 @@ onMounted(() => {
 
             <!-- Category Badge & Click Hint -->
             <div
-              class="absolute top-3 right-3 flex items-center gap-1.5 bg-base-950/85 backdrop-blur-md px-3 py-1 rounded-full border border-gold-500/20 text-gold-400 text-[0.65rem] font-serif z-[2]"
+              class="absolute top-3 right-3 flex items-center gap-1.5 bg-base-950/85 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-base-300 text-[0.65rem] font-serif z-[2]"
             >
               <span>{{ project.category }}</span>
             </div>
@@ -531,7 +533,7 @@ onMounted(() => {
           <!-- Card Details -->
           <div class="flex flex-col gap-3 p-6 flex-1 relative z-[2]">
             <h3
-              class="text-base-50 font-display font-bold text-base sm:text-lg group-hover:text-sakura-300 transition-colors duration-300"
+              class="text-base-50 font-katsuno font-normal tracking-wide text-sm sm:text-base leading-[1.25] group-hover:text-white transition-colors duration-300"
             >
               {{ project.title }}
             </h3>
@@ -551,7 +553,7 @@ onMounted(() => {
           </div>
 
           <!-- Card Links -->
-          <div class="flex items-center justify-between px-6 py-3.5 border-t border-gold-500/10 bg-base-950/40 relative z-[2]">
+          <div class="flex items-center justify-between px-6 py-3.5 border-t border-white/10 bg-base-950/40 relative z-[2]">
             <a
               v-if="project.liveUrl && project.liveUrl !== '#'"
               :href="project.liveUrl"
@@ -575,7 +577,7 @@ onMounted(() => {
               :href="project.repoUrl"
               target="_blank"
               rel="noopener"
-              class="flex items-center gap-1.5 text-base-300 hover:text-gold-300 text-xs font-serif transition-colors"
+              class="flex items-center gap-1.5 text-base-300 hover:text-white text-xs font-serif transition-colors"
               @click.stop
             >
               <span>Source Code</span>
@@ -610,17 +612,17 @@ onMounted(() => {
           @click.self="closeModal"
         >
           <div
-            class="w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-base-950 border border-gold-500/25 shadow-2xl p-5 sm:p-7 flex flex-col gap-6 relative"
+            class="w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-base-950 border border-white/15 shadow-2xl p-5 sm:p-7 flex flex-col gap-6 relative"
             @touchstart="onTouchStart"
             @touchend="onTouchEnd"
           >
             <!-- Modal Top Header -->
-            <div class="flex items-center justify-between gap-4 pb-3 border-b border-gold-500/15">
+            <div class="flex items-center justify-between gap-4 pb-3 border-b border-white/10">
               <div class="flex items-center gap-3">
                 <span class="hanko-stamp text-xs !py-0.5 !px-2 font-serif">
                   {{ selectedModalProject.category === 'Mobile App' ? 'APP' : 'WEB' }}
                 </span>
-                <span class="text-xs font-serif uppercase tracking-widest text-gold-400">
+                <span class="text-xs font-serif uppercase tracking-widest text-vermilion-500">
                   {{ selectedModalProject.category }}
                 </span>
                 <span class="text-base-600">•</span>
@@ -631,7 +633,7 @@ onMounted(() => {
 
               <!-- Close Button -->
               <button
-                class="p-2 rounded-full border border-gold-500/20 bg-base-900 text-base-300 hover:text-white hover:border-vermilion-500 hover:bg-vermilion-500/20 transition-all cursor-pointer"
+                class="p-2 rounded-full border border-white/10 bg-base-900 text-base-300 hover:text-white hover:border-vermilion-500 hover:bg-vermilion-500/20 transition-all cursor-pointer"
                 aria-label="Close modal"
                 @click="closeModal"
               >
@@ -640,14 +642,14 @@ onMounted(() => {
             </div>
 
             <!-- Swipeable Image Viewer -->
-            <div class="relative h-64 sm:h-96 md:h-[480px] w-full rounded-xl overflow-hidden bg-black/95 border border-gold-500/20 shadow-2xl flex items-center justify-center p-3 sm:p-5 group/modal-viewer select-none">
+            <div class="relative h-64 sm:h-96 md:h-[480px] w-full rounded-xl overflow-hidden bg-black border border-white/10 shadow-2xl flex items-center justify-center p-3 sm:p-5 group/modal-viewer select-none">
               <!-- Screenshot with lazy loading -->
               <template v-for="(image, imgIdx) in selectedModalProject.images" :key="imgIdx">
                 <NuxtImg
                   v-if="isImageValid(image)"
                   :src="image"
                   :alt="`${selectedModalProject.title} screenshot ${imgIdx + 1}`"
-                  class="absolute inset-0 m-auto max-w-full max-h-full object-contain drop-shadow-2xl rounded-lg transition-all duration-300"
+                  class="absolute inset-0 m-auto max-w-full max-h-full object-contain drop-shadow-2xl rounded-lg transition-all duration-300 bg-black"
                   :class="modalImageIndex === imgIdx ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'"
                   loading="lazy"
                   @error="handleImageError(image)"
@@ -691,18 +693,18 @@ onMounted(() => {
               <button
                 v-for="(img, thumbIdx) in selectedModalProject.images"
                 :key="thumbIdx"
-                class="h-14 w-20 shrink-0 rounded-lg overflow-hidden border transition-all cursor-pointer bg-black/60 p-1 flex items-center justify-center"
+                class="h-14 w-20 shrink-0 rounded-lg overflow-hidden border transition-all cursor-pointer bg-black p-1 flex items-center justify-center"
                 :class="
                   modalImageIndex === thumbIdx
                     ? 'border-vermilion-500 ring-2 ring-vermilion-500/40 scale-105'
-                    : 'border-gold-500/20 opacity-50 hover:opacity-100'
+                    : 'border-white/10 opacity-50 hover:opacity-100'
                 "
                 @click="modalImageIndex = thumbIdx"
               >
                 <NuxtImg
                   :src="img"
                   :alt="`Thumbnail ${thumbIdx + 1}`"
-                  class="w-full h-full object-contain"
+                  class="w-full h-full object-contain bg-black"
                   loading="lazy"
                 />
               </button>
@@ -711,21 +713,21 @@ onMounted(() => {
             <!-- Project Details & Actions -->
             <div class="flex flex-col gap-4">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <h3 class="font-display text-2xl sm:text-3xl font-bold text-base-50 tracking-tight">
+                <h3 class="font-katsuno text-lg sm:text-2xl font-normal text-base-50 tracking-wide leading-snug">
                   {{ selectedModalProject.title }}
                 </h3>
 
                 <!-- Project Switcher in Modal -->
                 <div class="flex items-center gap-2">
                   <button
-                    class="px-3 py-1.5 rounded-lg border border-gold-500/20 bg-base-900/60 hover:bg-vermilion-500 hover:border-vermilion-500 text-xs text-base-200 hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
+                    class="px-3 py-1.5 rounded-lg border border-white/10 bg-base-900/60 hover:bg-vermilion-500 hover:border-vermilion-500 text-xs text-base-200 hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
                     @click="modalPrevProject"
                   >
                     <ChevronLeft :size="14" />
                     <span>Prev Project</span>
                   </button>
                   <button
-                    class="px-3 py-1.5 rounded-lg border border-gold-500/20 bg-base-900/60 hover:bg-vermilion-500 hover:border-vermilion-500 text-xs text-base-200 hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
+                    class="px-3 py-1.5 rounded-lg border border-white/10 bg-base-900/60 hover:bg-vermilion-500 hover:border-vermilion-500 text-xs text-base-200 hover:text-white transition-all cursor-pointer flex items-center gap-1.5"
                     @click="modalNextProject"
                   >
                     <span>Next Project</span>
@@ -743,14 +745,14 @@ onMounted(() => {
                 <span
                   v-for="tech in selectedModalProject.techs"
                   :key="tech"
-                  class="bg-white/[0.05] text-gold-300/90 text-xs font-medium px-3 py-1 rounded-full border border-gold-500/15"
+                  class="bg-white/[0.05] text-base-200 text-xs font-medium px-3 py-1 rounded-full border border-white/10"
                 >
                   {{ tech }}
                 </span>
               </div>
 
               <!-- Action CTAs -->
-              <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-gold-500/10">
+              <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-white/10">
                 <a
                   v-if="selectedModalProject.liveUrl && selectedModalProject.liveUrl !== '#'"
                   :href="selectedModalProject.liveUrl"
@@ -770,7 +772,7 @@ onMounted(() => {
                   class="zen-btn-outline !py-2.5 !px-6 !text-xs"
                 >
                   <span>Source Repository</span>
-                  <ExternalLink :size="14" class="text-gold-400" />
+                  <ExternalLink :size="14" class="text-base-300" />
                 </a>
               </div>
             </div>
@@ -778,5 +780,11 @@ onMounted(() => {
         </div>
       </Transition>
     </Teleport>
-  </section>
+  </div>
 </template>
+
+<style scoped>
+.font-katsuno {
+  font-family: 'Katsuno Japan Demo', cursive, sans-serif !important;
+}
+</style>

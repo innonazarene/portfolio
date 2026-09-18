@@ -2,29 +2,22 @@
 import {
   ArrowRight,
   Download,
-  ChevronDown,
-  Layers,
-  Code2,
-  ShieldCheck,
-  Terminal,
 } from 'lucide-vue-next'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
-}
+const { goToTab } = usePortfolioNavigation()
 
 const heroContainerRef = ref<HTMLElement | null>(null)
 const castleBackdropRef = ref<HTMLElement | null>(null)
 
 const coreSkills = [
   'Laravel & PHP',
+  'React.js',
   'Vue 3 & Nuxt 4',
-  'Inertia & Livewire',
   'TypeScript',
   'Tailwind CSS',
-  'MySQL & Relational DBs',
+  'SQL & Databases',
+  'REST API Architecture',
 ]
 
 onMounted(() => {
@@ -32,23 +25,9 @@ onMounted(() => {
 
   tl.fromTo(
     '.hero-fade-in',
-    { opacity: 0, y: 22 },
+    { opacity: 0, y: 20 },
     { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 }
   )
-
-  if (heroContainerRef.value && castleBackdropRef.value) {
-    gsap.to(castleBackdropRef.value, {
-      scrollTrigger: {
-        trigger: heroContainerRef.value,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-      opacity: 0,
-      yPercent: 20,
-      ease: 'none',
-    })
-  }
 
   onUnmounted(() => {
     tl.kill()
@@ -57,158 +36,158 @@ onMounted(() => {
 </script>
 
 <template>
-  <section
+  <div
     id="home"
     ref="heroContainerRef"
-    class="relative min-h-screen flex items-center justify-center px-5 sm:px-8 pt-20 pb-16 overflow-hidden"
+    class="relative w-full h-full flex flex-col justify-between overflow-hidden"
   >
-    <!-- Fixed Castle Background Cover Photo that follows on scroll (First Page Only) -->
+    <!-- Japanese Castle Backdrop (Slides along with Hero) -->
     <div
       ref="castleBackdropRef"
-      class="hero-castle-backdrop fixed inset-0 w-full h-screen pointer-events-none z-0 overflow-hidden"
+      class="hero-castle-backdrop absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden bg-black"
     >
       <NuxtImg
         src="/images/castle-bg.png"
         alt="Japanese Castle Night Backdrop"
-        class="w-full h-full object-cover object-center opacity-40 filter contrast-125 brightness-105"
+        class="w-full h-full object-cover object-center opacity-40 filter contrast-125 brightness-105 bg-black"
         loading="eager"
       />
-      <!-- Pure black gradient overlays so the castle dissolves seamlessly into pitch black #000000 -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/75" />
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#000000_92%)]" />
+      <!-- Pure black overlay -->
+      <div class="absolute inset-0 bg-black/75" />
     </div>
 
-    <!-- 2-Column Hero Content Grid -->
-    <div class="relative z-10 max-w-6xl w-full grid lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
-      <!-- Left Column (7 cols): Narrative & Actions -->
-      <div class="lg:col-span-7 flex flex-col items-start text-left gap-5">
-        <!-- Status Pill -->
-        <div
-          class="hero-fade-in inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-gold-500/25 bg-black/80 backdrop-blur-md shadow-[0_2px_15px_rgba(0,0,0,0.6)]"
-        >
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+    <!-- 2-Column Hero Content Grid (Expands to fill height between top and bottom lines) -->
+    <div class="relative z-10 max-w-6xl w-full flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 items-stretch justify-between mx-auto py-1">
+      <!-- Left Column (7 cols): Narrative & Actions (Compressed & Centered) -->
+      <div class="lg:col-span-7 flex flex-col justify-center gap-3.5 sm:gap-4.5 items-center text-center lg:items-start lg:text-left h-full py-1">
+        <!-- Top: Headline & Identity -->
+        <div class="hero-fade-in flex flex-col items-center lg:items-start">
+          <span class="block text-[0.7rem] sm:text-xs md:text-sm font-serif tracking-[0.25em] sm:tracking-[0.35em] text-base-300 uppercase text-center lg:text-left mb-3 sm:mb-4 lg:mb-5">
+            Rustom Pedales Jr. &bull; Senior Full-Stack Developer
           </span>
-          <span class="text-[0.7rem] font-mono tracking-wider text-base-200 uppercase">
-            Available for Full-Stack &amp; Engineering Roles
-          </span>
-        </div>
-
-        <!-- Headline -->
-        <div class="hero-fade-in flex flex-col gap-2">
-          <span class="text-[0.68rem] sm:text-xs font-serif tracking-[0.35em] text-gold-400 uppercase">
-            Rustom Pedales Jr. &bull; Software Craftsman
-          </span>
-          <h1 class="font-katsuno text-2xl sm:text-3xl lg:text-[2.6rem] font-normal tracking-wide text-white leading-[1.45] sm:leading-[1.5] my-1">
+          <h1 class="font-katsuno text-2xl sm:text-3xl lg:text-[2.7rem] font-normal tracking-tight text-white leading-[1.35] sm:leading-[1.3] lg:leading-[1.25] text-center lg:text-left max-w-lg">
             Architecting Scalable &amp; Modern Systems<span class="text-vermilion-500">.</span>
           </h1>
         </div>
 
-        <!-- Elevator Pitch -->
-        <p class="hero-fade-in text-base-300 text-sm sm:text-base leading-relaxed font-body max-w-xl">
-          Hi, I'm <strong class="text-white font-medium">Tom</strong>. A Full-Stack Developer dedicated to engineering reliable web platforms, administrative enterprise suites, and clean user interfaces with
+        <!-- Middle: Elevator Pitch (Compressed, No Voids) -->
+        <p class="hero-fade-in text-base-300 text-xs sm:text-sm md:text-base leading-relaxed font-body max-w-xl text-center lg:text-left mx-auto lg:mx-0">
+          Hi, I'm <strong class="text-white font-medium">Tom</strong>. A Senior Full-Stack Developer and Application Architect dedicated to engineering reliable web platforms, administrative enterprise suites, and clean user interfaces with
           <span class="text-white font-medium">Laravel</span>,
-          <span class="text-white font-medium">Vue.js</span>,
-          <span class="text-white font-medium">Nuxt</span>, and modern web architectures.
+          <span class="text-white font-medium">React</span>,
+          <span class="text-white font-medium">Vue.js</span>, and modern web architectures.
         </p>
 
-        <!-- Action Buttons -->
-        <div class="hero-fade-in flex flex-wrap gap-3.5 items-center w-full sm:w-auto pt-1">
-          <a
-            href="#projects"
-            class="zen-btn-primary !py-2.5 !px-7 text-xs sm:text-sm shadow-[0_6px_20px_rgba(224,49,49,0.35)]"
-          >
-            <span>Explore 17 Systems</span>
-            <ArrowRight :size="15" />
-          </a>
-          <a
-            href="/Rustom R Pedales Jr.pdf"
-            download
-            target="_blank"
-            class="zen-btn-outline !py-2.5 !px-6 text-xs sm:text-sm"
-          >
-            <Download :size="15" class="text-gold-400" />
-            <span>Download CV</span>
-          </a>
-        </div>
+        <!-- Bottom: Action Buttons & Core Stack Strip -->
+        <div class="flex flex-col items-center lg:items-start gap-3 w-full sm:w-auto shrink-0">
+          <div class="hero-fade-in grid grid-cols-2 gap-2.5 sm:gap-3.5 w-full sm:flex sm:w-auto items-center">
+            <button
+              class="zen-btn-primary w-full sm:w-auto !py-2.5 !px-2 sm:!px-7 text-[0.72rem] sm:text-xs md:text-sm cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap text-center"
+              @click="goToTab('projects')"
+            >
+              <span>Explore 17 Systems</span>
+              <ArrowRight :size="14" class="shrink-0" />
+            </button>
+            <a
+              href="/Rustom R Pedales Jr.pdf"
+              download
+              target="_blank"
+              class="zen-btn-outline w-full sm:w-auto !py-2.5 !px-2 sm:!px-6 text-[0.72rem] sm:text-xs md:text-sm flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap text-center"
+            >
+              <Download :size="14" class="text-base-300 shrink-0" />
+              <span>Download Resume</span>
+            </a>
+          </div>
 
-        <!-- Core Stack Pills Strip -->
-        <div class="hero-fade-in flex flex-wrap items-center gap-1.5 pt-2">
-          <span
-            v-for="skill in coreSkills"
-            :key="skill"
-            class="px-2.5 py-1 rounded-full text-[0.7rem] font-mono text-base-300 bg-black/70 border border-gold-500/15 hover:border-vermilion-500/40 hover:text-white transition-all shadow-sm"
-          >
-            {{ skill }}
-          </span>
+          <!-- Core Stack Pills Strip -->
+          <div class="hero-fade-in flex flex-wrap items-center justify-center lg:justify-start gap-1.5 pt-1">
+            <span
+              v-for="skill in coreSkills"
+              :key="skill"
+              class="px-2.5 py-1 rounded-full text-[0.68rem] sm:text-[0.7rem] font-mono text-base-300 bg-black/70 border border-white/10 hover:border-vermilion-500/40 hover:text-white transition-all shadow-sm"
+            >
+              {{ skill }}
+            </span>
+          </div>
         </div>
       </div>
 
-      <!-- Right Column (5 cols): Compact 2x2 Bento Metric Cards Grid -->
-      <div class="lg:col-span-5 grid grid-cols-2 gap-3.5 w-full">
-        <!-- Card 1: Projects -->
-        <div class="hero-fade-in washi-card p-4 rounded-xl border border-gold-500/15 bg-black/60 backdrop-blur-md flex flex-col justify-between text-left h-36">
-          <div class="flex items-center justify-between">
-            <span class="font-display text-3xl font-bold text-white">17+</span>
-            <Layers :size="18" class="text-gold-400" />
-          </div>
+      <!-- Right Column (5 cols): Full-Height 2x2 Bento Metric Cards Grid with Clean Typography -->
+      <div class="lg:col-span-5 grid grid-cols-2 gap-3.5 sm:gap-4 w-full h-full">
+        <!-- Card 1: 17+ Production Systems -->
+        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
           <div>
-            <span class="text-[0.7rem] font-serif text-gold-400 uppercase tracking-wider block">Production Systems</span>
-            <span class="text-[0.68rem] text-base-400 block mt-0.5">Enterprise, Web &amp; Mobile UI</span>
+            <span class="font-katsuno text-3xl sm:text-4xl lg:text-[2.6rem] font-normal tracking-wide text-white leading-none">17+</span>
+          </div>
+
+          <div class="my-auto py-2">
+            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">12 Web &bull; 5 Mobile Apps</span>
+            <span class="text-[0.7rem] sm:text-xs font-mono text-emerald-400 mt-1 block">100% Shipped to Production</span>
+          </div>
+
+          <div class="pt-2 border-t border-white/5">
+            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Production Systems</span>
+            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Enterprise, Web &amp; Mobile UI</span>
           </div>
         </div>
 
-        <!-- Card 2: Specialization -->
-        <div class="hero-fade-in washi-card p-4 rounded-xl border border-gold-500/15 bg-black/60 backdrop-blur-md flex flex-col justify-between text-left h-36">
-          <div class="flex items-center justify-between">
-            <span class="font-display text-2xl font-bold text-white">Full-Stack</span>
-            <Code2 :size="18" class="text-vermilion-400" />
-          </div>
+        <!-- Card 2: FULL-STACK & Core Specialization -->
+        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
           <div>
-            <span class="text-[0.7rem] font-serif text-gold-400 uppercase tracking-wider block">Core Specialization</span>
-            <span class="text-[0.68rem] text-base-400 block mt-0.5">Laravel &bull; Vue 3 &bull; Nuxt</span>
+            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.2rem] font-normal tracking-wide text-white leading-tight">Full-Stack</span>
+          </div>
+
+          <div class="my-auto py-2">
+            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">7+ Years Experience</span>
+          </div>
+
+          <div class="pt-2 border-t border-white/5">
+            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Core Specialization</span>
+            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Laravel &bull; React &bull; Vue 3 &bull; Nuxt</span>
           </div>
         </div>
 
-        <!-- Card 3: Craftsmanship -->
-        <div class="hero-fade-in washi-card p-4 rounded-xl border border-gold-500/15 bg-black/60 backdrop-blur-md flex flex-col justify-between text-left h-36">
-          <div class="flex items-center justify-between">
-            <span class="font-display text-3xl font-bold text-white">100%</span>
-            <ShieldCheck :size="18" class="text-emerald-400" />
-          </div>
+        <!-- Card 3: 100% Engineering Craft -->
+        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
           <div>
-            <span class="text-[0.7rem] font-serif text-gold-400 uppercase tracking-wider block">Engineering Craft</span>
-            <span class="text-[0.68rem] text-base-400 block mt-0.5">Modular &bull; Scalable &bull; Clean</span>
+            <span class="font-katsuno text-3xl sm:text-4xl lg:text-[2.6rem] font-normal tracking-wide text-white leading-none">100%</span>
+          </div>
+
+          <div class="my-auto py-2">
+            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">End-to-End Delivery</span>
+            <span class="text-[0.7rem] sm:text-xs font-mono text-base-400 mt-1 block">Architecture to UI &bull; APIs</span>
+          </div>
+
+          <div class="pt-2 border-t border-white/5">
+            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Engineering Craft</span>
+            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Modular &bull; Scalable &bull; Clean</span>
           </div>
         </div>
 
-        <!-- Card 4: Active Status -->
-        <div class="hero-fade-in washi-card p-4 rounded-xl border border-gold-500/15 bg-black/60 backdrop-blur-md flex flex-col justify-between text-left h-36">
-          <div class="flex items-center justify-between">
-            <span class="font-display text-2xl font-bold text-white">Active</span>
-            <Terminal :size="18" class="text-sakura-400" />
-          </div>
+        <!-- Card 4: ACTIVE & Availability -->
+        <div class="hero-fade-in washi-card p-4 sm:p-5 lg:p-6 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left h-full hover:border-white/20 transition-colors duration-300">
           <div>
-            <span class="text-[0.7rem] font-serif text-gold-400 uppercase tracking-wider block">Availability</span>
-            <span class="text-[0.68rem] text-base-400 block mt-0.5">Remote &amp; Contract Ready</span>
+            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.4rem] font-normal tracking-wide text-white leading-none">Active</span>
+          </div>
+
+          <div class="my-auto py-2">
+            <span class="text-xs sm:text-[0.8rem] font-mono text-base-200 block">Full-Stack &bull; Architect</span>
+            <span class="text-[0.7rem] sm:text-xs font-mono text-emerald-400 mt-1 block">Response Speed &lt; 24h</span>
+          </div>
+
+          <div class="pt-2 border-t border-white/5">
+            <span class="text-xs sm:text-sm font-serif text-base-200 uppercase tracking-wider block font-semibold">Availability</span>
+            <span class="text-[0.68rem] sm:text-xs text-base-400 block mt-0.5">Remote &amp; Contract Ready</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Scroll Hint -->
-    <div
-      class="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-base-400 hover:text-base-200 transition-colors pointer-events-none"
-    >
-      <span class="text-[0.6rem] font-serif tracking-[0.3em] uppercase">Scroll Down</span>
-      <ChevronDown :size="14" class="animate-bounce text-gold-400" />
-    </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
 .font-katsuno {
-  font-family: 'Katsuno Japan Demo', cursive, sans-serif;
+  font-family: 'Katsuno Japan Demo', cursive, sans-serif !important;
 }
 </style>

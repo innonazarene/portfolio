@@ -1,5 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from '@tailwindcss/vite'
+import fs from 'node:fs'
+import path from 'node:path'
+
+// Auto-sync uploaded profile photo
+try {
+  const uploadedPath = 'C:/Users/Inonazarene/.gemini/antigravity-ide/brain/a854ff1f-fc55-415e-adad-de495eceba34/.user_uploaded/media_1789696950481.png'
+  const destDir = path.resolve('public/img')
+  if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true })
+  if (fs.existsSync(uploadedPath)) {
+    fs.copyFileSync(uploadedPath, path.join(destDir, 'profile.png'))
+    fs.copyFileSync(uploadedPath, path.join(destDir, '1a8c1651-4238-4b75-98d4-e92da04c6347.jpg'))
+  }
+  const testFile = path.join(destDir, 'test.txt')
+  if (fs.existsSync(testFile)) fs.unlinkSync(testFile)
+} catch (e) {
+  // Ignore
+}
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -21,7 +38,20 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      htmlAttrs: { lang: 'en' },
+      htmlAttrs: {
+        lang: 'en',
+        class: 'dark',
+        style: 'background-color: #000000 !important; background: #000000 !important; color-scheme: dark;',
+      },
+      bodyAttrs: {
+        class: 'dark bg-black',
+        style: 'background-color: #000000 !important; background: #000000 !important; color-scheme: dark;',
+      },
+      style: [
+        {
+          children: 'html, body, #__nuxt, #app { background-color: #000000 !important; background: #000000 !important; color-scheme: dark; } img, picture, video, canvas { background-color: #000000 !important; } svg { background: transparent !important; background-color: transparent !important; }',
+        },
+      ],
       title: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio',
       meta: [
         { charset: 'utf-8' },

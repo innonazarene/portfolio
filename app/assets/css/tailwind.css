@@ -16,6 +16,10 @@
   font-display: swap;
 }
 
+@utility font-katsuno {
+  font-family: 'Katsuno Japan Demo', cursive, sans-serif !important;
+}
+
 /* ═══════════════════════════════════════════════
    JAPANESE ZEN & WABI-SABI DESIGN SYSTEM — Tailwind CSS v4
    ═══════════════════════════════════════════════ */
@@ -61,11 +65,11 @@
   --color-secondary-500: #e6889f;
   --color-secondary-600: #cc6d85;
 
-  /* ── Kintsugi Gold Palette ── */
-  --color-gold-300: #fde047;
-  --color-gold-400: #eab308;
-  --color-gold-500: #d4af37;
-  --color-gold-600: #b38f26;
+  /* ── Neutral Silver Palette (No Yellow) ── */
+  --color-gold-300: #e2e8f0;
+  --color-gold-400: #cbd5e1;
+  --color-gold-500: #94a3b8;
+  --color-gold-600: #64748b;
 
   /* ── Typography ── */
   --font-display: 'Cinzel', Georgia, serif;
@@ -117,17 +121,34 @@
    ═══════════════════════════════════════════════ */
 
 @layer base {
-  html {
+  html,
+  body,
+  #__nuxt,
+  #app {
     scroll-behavior: smooth;
-    background-color: var(--color-base-950);
+    background-color: #000000 !important;
+    background: #000000 !important;
+    color-scheme: dark !important;
   }
 
   body {
-    background-color: var(--color-base-950);
+    background-color: #000000 !important;
     color: var(--color-base-200);
     font-family: var(--font-body);
     overflow-x: hidden;
     position: relative;
+  }
+
+  img,
+  picture,
+  video,
+  canvas {
+    background-color: #000000 !important;
+  }
+
+  svg {
+    background-color: transparent !important;
+    background: transparent !important;
   }
 
   ::selection {
@@ -145,12 +166,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.35);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-gold-500);
+    background: var(--color-vermilion-500);
   }
 
   /* ── Hide scrollbars utility ── */
@@ -171,22 +192,20 @@
 
 @layer components {
 
-  /* ── Washi Paper Glass Card ── */
+  /* ── Washi Paper Glass Card (Pure Black Design) ── */
   .glass-card,
   .washi-card {
-    background: rgba(12, 12, 12, 0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(212, 175, 55, 0.12);
+    background: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 1rem;
     position: relative;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .glass-card:hover,
   .washi-card:hover {
-    border-color: rgba(224, 49, 49, 0.35);
-    box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(224, 49, 49, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.8);
   }
 
   /* ── Traditional Red Seal Stamp ── */
@@ -207,6 +226,11 @@
     box-shadow: 0 0 10px rgba(197, 34, 34, 0.2), inset 0 0 4px rgba(197, 34, 34, 0.15);
   }
 
+  /* ── Japanese Katsuno Font ── */
+  .font-katsuno {
+    font-family: 'Katsuno Japan Demo', cursive, sans-serif !important;
+  }
+
   /* ── Japanese Section Label ── */
   .section-label {
     display: inline-flex;
@@ -218,9 +242,9 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     padding: 0.35rem 1.1rem;
-    border: 1px solid rgba(212, 175, 55, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 9999px;
-    background: rgba(212, 175, 55, 0.05);
+    background: rgba(255, 255, 255, 0.04);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
@@ -230,105 +254,72 @@
     font-size: 0.7rem;
   }
 
-  /* ── Japanese Gradient Text ── */
+  /* ── Japanese Accent Text (Pure Solid Color) ── */
   .text-gradient-accent {
-    background: linear-gradient(135deg, #f7f5f0 20%, #f4a7b9 65%, #e03131 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--color-vermilion-500);
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, #fff7d6 0%, #d4af37 60%, #9a781b 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--color-base-100);
   }
 
   /* ── Subtle Japanese Pattern (Seigaiha / Waves) ── */
   .seigaiha-bg {
-    background-image: radial-gradient(circle at 100% 150%, rgba(212, 175, 55, 0.03) 24%, transparent 25%),
-                      radial-gradient(circle at 0% 150%, rgba(212, 175, 55, 0.03) 24%, transparent 25%),
-                      radial-gradient(circle at 50% 100%, rgba(224, 49, 49, 0.03) 10%, transparent 11%),
-                      radial-gradient(circle at 100% 50%, rgba(212, 175, 55, 0.03) 24%, transparent 25%),
-                      radial-gradient(circle at 0% 50%, rgba(212, 175, 55, 0.03) 24%, transparent 25%),
-                      radial-gradient(circle at 50% 0%, rgba(224, 49, 49, 0.03) 10%, transparent 11%);
-    background-size: 50px 25px;
+    background-color: var(--color-base-950);
   }
 
-  /* ── Primary Zen Button (Torii Vermilion Lacquer) ── */
+  /* ── Primary Zen Button (Clean Solid Vermilion, No Fancy Design) ── */
   .cyber-btn-primary,
   .zen-btn-primary {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
-    padding: 0.875rem 2.2rem;
-    background: linear-gradient(135deg, #c52222, #9f1212);
-    color: #f7f5f0;
+    justify-content: center;
+    gap: 0.5rem;
     font-family: var(--font-body);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
     font-weight: 600;
     border-radius: 9999px;
-    border: 1px solid rgba(254, 202, 202, 0.25);
     cursor: pointer;
+    background-color: var(--color-vermilion-500);
+    color: #ffffff;
+    border: 1px solid var(--color-vermilion-500);
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(197, 34, 34, 0.35);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .cyber-btn-primary::before,
-  .zen-btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-    transition: left 0.6s ease;
+    box-shadow: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
   .cyber-btn-primary:hover,
   .zen-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(197, 34, 34, 0.55), 0 0 15px rgba(244, 167, 185, 0.3);
-    border-color: rgba(254, 202, 202, 0.5);
+    background-color: var(--color-vermilion-600);
+    border-color: var(--color-vermilion-600);
+    box-shadow: none;
+    transform: none;
   }
 
-  .cyber-btn-primary:hover::before,
-  .zen-btn-primary:hover::before {
-    left: 100%;
-  }
-
-  /* ── Outline Zen Button (Kintsugi Gold / Bamboo) ── */
+  /* ── Secondary Outline Zen Button (Clean Solid Border, No Fancy Design) ── */
   .cyber-btn-outline,
   .zen-btn-outline {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
-    padding: 0.875rem 2.2rem;
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    color: var(--color-base-100);
+    justify-content: center;
+    gap: 0.5rem;
     font-family: var(--font-body);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
     font-weight: 500;
     border-radius: 9999px;
     cursor: pointer;
-    background: rgba(212, 175, 55, 0.04);
-    backdrop-filter: blur(10px);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-base-200);
+    box-shadow: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
   }
 
   .cyber-btn-outline:hover,
   .zen-btn-outline:hover {
-    border-color: var(--color-gold-500);
-    background: rgba(212, 175, 55, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
     color: #ffffff;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
-    transform: translateY(-2px);
+    background: transparent;
+    box-shadow: none;
+    transform: none;
   }
 
   /* ── Japanese Watermark Typography ── */
@@ -358,7 +349,7 @@
     left: 0;
     width: 0;
     height: 1.5px;
-    background: linear-gradient(90deg, var(--color-vermilion-500), var(--color-gold-500));
+    background: var(--color-vermilion-500);
     transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -382,7 +373,7 @@
   .power-meter-fill {
     height: 100%;
     border-radius: 9999px;
-    background: linear-gradient(90deg, #c52222, #e03131 60%, #d4af37 100%);
+    background: var(--color-vermilion-500);
     box-shadow: 0 0 12px rgba(224, 49, 49, 0.4);
     transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
   }

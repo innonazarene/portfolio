@@ -180,18 +180,15 @@ onMounted(() => {
   fireflyGeo.setAttribute('position', new THREE.BufferAttribute(fireflyPos, 3))
   fireflyGeo.setAttribute('size', new THREE.BufferAttribute(fireflySizes, 1))
 
-  // Soft glowing firefly canvas texture
+  // Pure solid firefly particle texture
   const particleCanvas = document.createElement('canvas')
   particleCanvas.width = 32
   particleCanvas.height = 32
   const pCtx = particleCanvas.getContext('2d')!
-  const grad = pCtx.createRadialGradient(16, 16, 0, 16, 16, 16)
-  grad.addColorStop(0, 'rgba(240, 245, 255, 0.85)')
-  grad.addColorStop(0.3, 'rgba(180, 195, 220, 0.4)')
-  grad.addColorStop(0.7, 'rgba(100, 115, 140, 0.15)')
-  grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
-  pCtx.fillStyle = grad
-  pCtx.fillRect(0, 0, 32, 32)
+  pCtx.fillStyle = 'rgba(240, 245, 255, 0.85)'
+  pCtx.beginPath()
+  pCtx.arc(16, 16, 8, 0, Math.PI * 2)
+  pCtx.fill()
 
   const fireflyTexture = new THREE.CanvasTexture(particleCanvas)
   const fireflyMat = new THREE.PointsMaterial({
@@ -398,7 +395,7 @@ onMounted(() => {
 <template>
   <div
     ref="containerRef"
-    class="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+    class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black"
     aria-hidden="true"
   />
 </template>

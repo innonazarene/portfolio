@@ -39,7 +39,7 @@ onMounted(() => {
   <div
     id="home"
     ref="heroContainerRef"
-    class="relative w-full h-full flex flex-col justify-between overflow-hidden"
+    class="relative w-full min-h-full flex flex-col justify-start md:justify-between overflow-visible md:overflow-hidden"
   >
     <!-- Japanese Castle Backdrop (Slides along with Hero) -->
     <div
@@ -57,7 +57,7 @@ onMounted(() => {
     </div>
 
     <!-- 2-Column Hero Content Grid (Expands to fill height between top and bottom lines) -->
-    <div class="relative z-10 max-w-6xl w-full flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 items-center justify-center mx-auto py-1">
+    <div class="relative z-10 max-w-6xl w-full flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-10 items-center justify-start md:justify-center mx-auto py-10 md:py-1">
       <!-- Left Column (7 cols): Narrative & Actions (Compressed & Centered) -->
       <div class="lg:col-span-7 flex flex-col justify-center gap-3.5 sm:gap-4.5 items-center text-center lg:items-start lg:text-left py-1">
         <!-- Top: Headline & Identity -->
@@ -113,7 +113,7 @@ onMounted(() => {
       </div>
 
       <!-- Right Column (5 cols): Compact 2x2 Bento Metric Cards Grid -->
-      <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-3.5 w-full">
+      <div class="hidden sm:grid lg:col-span-5 grid-cols-2 gap-3 sm:gap-3.5 w-full">
         <!-- Card 1: 17+ Production Systems -->
         <div class="hero-fade-in washi-card p-3.5 sm:p-4 lg:p-4.5 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left hover:border-white/20 transition-colors duration-300 gap-2">
           <div>

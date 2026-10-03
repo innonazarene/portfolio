@@ -195,10 +195,11 @@
   /* ── Washi Paper Glass Card (Pure Black Design) ── */
   .glass-card,
   .washi-card {
-    background: #000000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.98), rgba(0, 0, 0, 0.96));
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 1rem;
     position: relative;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 

@@ -30,7 +30,7 @@ const projectsData = [
     folder: 'pawurelove',
     imageCount: 10,
     liveUrl: '#',
-    repoUrl: 'https://github.com/innonazarene/pawurelove',
+    repoUrl: '#',
   },
   {
     id: 2,
@@ -256,8 +256,8 @@ const selectFilter = (catId: string) => {
   nextTick(() => {
     gsap.fromTo(
       '.project-card-item',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out' }
+      { y: 18 },
+      { y: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out', clearProps: 'transform' }
     )
   })
 }
@@ -402,8 +402,8 @@ const playCardsAnimation = () => {
   nextTick(() => {
     gsap.fromTo(
       '.project-card-item',
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }
+      { y: 28 },
+      { y: 0, duration: 0.45, stagger: 0.04, ease: 'power3.out', clearProps: 'transform' }
     )
   })
 }
@@ -467,7 +467,7 @@ onMounted(() => {
         <article
           v-for="project in filteredProjects"
           :key="project.id"
-          class="project-card-item washi-card group flex flex-col overflow-hidden border border-white/10 bg-black hover:border-white/25 transition-all duration-300 -translate-y-0 hover:-translate-y-1 cursor-pointer"
+          class="project-card-item washi-card group flex flex-col overflow-hidden border border-white/[0.12] bg-base-950/95 shadow-[0_16px_45px_rgba(0,0,0,0.55)] opacity-100 hover:border-white/25 transition-all duration-300 -translate-y-0 hover:-translate-y-1 cursor-pointer"
           @click="openModal(project)"
         >
           <!-- Preview with object-contain and fitted padding -->

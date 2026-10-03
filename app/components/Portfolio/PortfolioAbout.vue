@@ -13,14 +13,20 @@ import {
   Layers,
   Briefcase,
   ChevronRight,
+  Github,
+  GitCommitHorizontal,
+  GitPullRequest,
+  MessageCircle,
+  SearchCheck,
 } from 'lucide-vue-next'
 import gsap from 'gsap'
+import githubContributions from '~/data/github-contributions.json'
 
 const { currentTab } = usePortfolioNavigation()
 
-const activePanel = ref<'experience' | 'skills'>('experience')
+const activePanel = ref<'experience' | 'skills' | 'github'>('experience')
 
-const setPanel = (panel: 'experience' | 'skills') => {
+const setPanel = (panel: 'experience' | 'skills' | 'github') => {
   activePanel.value = panel
   nextTick(() => {
     if (panel === 'skills') {
@@ -29,12 +35,20 @@ const setPanel = (panel: 'experience' | 'skills') => {
         { scaleX: 0, transformOrigin: 'left' },
         { scaleX: 1, duration: 0.8, ease: 'power2.out', stagger: 0.03 }
       )
-    } else {
+    } else if (panel === 'experience') {
       gsap.fromTo(
         '.experience-item',
         { opacity: 0, y: 12 },
         { opacity: 1, y: 0, duration: 0.45, stagger: 0.05, ease: 'power3.out' }
       )
+    } else {
+      gsap.fromTo(
+        '.github-activity-item',
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.45, stagger: 0.04, ease: 'power3.out' }
+      )
+      if (heatmapScrollRef.value && window.innerWidth < 1024) heatmapScrollRef.value.scrollLeft = heatmapScrollRef.value.scrollWidth
+      else if (heatmapScrollRef.value) heatmapScrollRef.value.scrollLeft = 0
     }
   })
 }
@@ -127,6 +141,66 @@ const highlights = [
   { icon: Zap,            label: 'Former IT Instructor' },
 ]
 
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+// Real GitHub contribution calendar, refreshed at build time by scripts/fetch-github-contributions.mjs
+const contributionDays = githubContributions.contributions as { date: string, count: number, level: number }[]
+const contributionTotal = githubContributions.total as number
+
+// Group days into week columns (Sunday first), padding the first column so rows line up with weekdays
+const contributionWeeks = (() => {
+  const weeks: ({ date: string, count: number, level: number } | null)[][] = []
+  let current: ({ date: string, count: number, level: number } | null)[] = []
+  const firstDow = new Date(`${contributionDays[0]?.date}T00:00:00Z`).getUTCDay()
+  for (let i = 0; i < firstDow; i++) current.push(null)
+  for (const day of contributionDays) {
+    current.push(day)
+    if (current.length === 7) {
+      weeks.push(current)
+      current = []
+    }
+  }
+  if (current.length) {
+    while (current.length < 7) current.push(null)
+    weeks.push(current)
+  }
+  return weeks
+})()
+
+// Month labels sit above the first week column that starts that month
+const contributionMonths = (() => {
+  const labels: { label: string, start: number }[] = []
+  let lastMonth = -1
+  contributionWeeks.forEach((week, idx) => {
+    const first = week.find(Boolean)
+    if (!first) return
+    const m = new Date(`${first.date}T00:00:00Z`).getUTCMonth()
+    if (m !== lastMonth) {
+      if (!labels.length || idx - labels[labels.length - 1]!.start >= 3) labels.push({ label: monthNames[m]!, start: idx })
+      lastMonth = m
+    }
+  })
+  return labels
+})()
+
+const contributionTone = (level: number) => [
+  'bg-base-800/80 border-white/[0.03]',
+  'bg-emerald-950 border-emerald-900/40',
+  'bg-emerald-800 border-emerald-700/40',
+  'bg-emerald-600 border-emerald-500/40',
+  'bg-emerald-400 border-emerald-300/50',
+][level] ?? 'bg-base-800/80 border-white/[0.03]'
+
+const githubRepos = ['cictd-isds/chrmd-api', 'cictd-isds/chrmd-web', 'innonazarene/farmlync']
+
+const activityStats = [
+  { label: 'Commits', value: 64, icon: GitCommitHorizontal },
+  { label: 'Code review', value: 21, icon: SearchCheck },
+  { label: 'Pull requests', value: 12, icon: GitPullRequest },
+  { label: 'Issues', value: 3, icon: MessageCircle },
+]
+
+const heatmapScrollRef = ref<HTMLElement | null>(null)
 const bioCardRef = ref<HTMLElement | null>(null)
 const skillsCardRef = ref<HTMLElement | null>(null)
 const animated = ref(false)
@@ -137,14 +211,14 @@ const playAnimation = () => {
 
   gsap.fromTo(
     bioCardRef.value,
-    { opacity: 0, x: -25 },
-    { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out' }
+    { x: -18 },
+    { x: 0, duration: 0.45, ease: 'power3.out', clearProps: 'transform' }
   )
 
   gsap.fromTo(
     skillsCardRef.value,
-    { opacity: 0, x: 25 },
-    { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', delay: 0.12 }
+    { x: 18 },
+    { x: 0, duration: 0.45, ease: 'power3.out', delay: 0.08, clearProps: 'transform' }
   )
 
   gsap.fromTo(
@@ -169,9 +243,9 @@ onMounted(() => {
 
 <template>
   <div
-    class="relative w-full h-full flex flex-col justify-between overflow-hidden"
+    class="relative w-full min-h-full md:h-full flex flex-col justify-between overflow-visible md:overflow-hidden"
   >
-    <div class="max-w-6xl w-full mx-auto relative z-10 flex flex-col justify-between h-full gap-3 sm:gap-4">
+    <div class="max-w-6xl w-full mx-auto relative z-10 flex flex-col justify-between md:h-full gap-3 sm:gap-4">
       <!-- Section Header (Aligned with top of sidebar) -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 min-h-[44px] pb-4 mb-3 sm:mb-4 border-b border-white/10 shrink-0 pr-14 md:pr-0">
         <div class="flex items-center gap-2.5 sm:gap-3">
@@ -186,11 +260,11 @@ onMounted(() => {
       </div>
 
       <!-- 2-Card Layout (Expands vertically to match sidebar bottom) -->
-      <div class="grid lg:grid-cols-[1fr_1.15fr] gap-4 lg:gap-6 items-stretch flex-1 min-h-0">
+      <div class="grid lg:grid-cols-[1fr_1.15fr] gap-4 lg:gap-6 items-stretch flex-1 md:min-h-0">
         <!-- ── Left Card: Bio, Education & Alma Mater ── -->
         <div
           ref="bioCardRef"
-          class="washi-card p-4 sm:p-5 lg:p-6 flex flex-col justify-between h-full overflow-y-auto no-scrollbar gap-3"
+          class="washi-card p-4 sm:p-5 lg:p-6 flex flex-col justify-between md:h-full md:overflow-y-auto no-scrollbar gap-3"
         >
           <!-- Profile Header -->
           <div class="flex items-center gap-4 pb-3 border-b border-white/10 shrink-0">
@@ -212,7 +286,7 @@ onMounted(() => {
             </div>
 
             <div class="flex flex-col min-w-0 flex-1 gap-1 sm:gap-1.5">
-              <h3 class="text-sm sm:text-lg lg:text-xl font-katsuno font-normal tracking-wide text-base-50 leading-snug whitespace-nowrap mb-1 sm:mb-1.5">
+              <h3 class="text-sm sm:text-lg lg:text-xl font-katsuno font-normal tracking-wide text-base-50 leading-snug sm:whitespace-nowrap mb-1 sm:mb-1.5">
                 Rustom Ramos Pedales Jr.
               </h3>
               <p class="text-xs sm:text-sm font-serif flex flex-wrap items-center gap-x-2 gap-y-0.5">
@@ -282,13 +356,13 @@ onMounted(() => {
         <!-- ── Right Card: Dual-Tab Deck (Career Experience & Tech Stack) ── -->
         <div
           ref="skillsCardRef"
-          class="washi-card p-4 sm:p-5 lg:p-6 flex flex-col justify-between h-full overflow-hidden"
+          class="washi-card p-4 sm:p-5 lg:p-6 flex flex-col justify-between md:h-full md:overflow-hidden"
         >
           <!-- Top Switcher Header (Career Experience vs Technical Proficiency) -->
           <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
-            <div class="flex items-center gap-1.5 p-1 rounded-full bg-black border border-white/10">
+            <div class="flex items-center gap-1.5 p-1 rounded-full bg-black border border-white/10 overflow-x-auto no-scrollbar max-w-full">
               <button
-                class="px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5"
+                class="px-3 sm:px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
                 :class="activePanel === 'experience'
                   ? 'bg-vermilion-500 text-white shadow-sm font-semibold'
                   : 'text-base-400 hover:text-white'"
@@ -298,7 +372,7 @@ onMounted(() => {
                 <span>Career Experience</span>
               </button>
               <button
-                class="px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5"
+                class="px-3 sm:px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
                 :class="activePanel === 'skills'
                   ? 'bg-vermilion-500 text-white shadow-sm font-semibold'
                   : 'text-base-400 hover:text-white'"
@@ -307,17 +381,27 @@ onMounted(() => {
                 <Code2 :size="12" />
                 <span>Technical Stack</span>
               </button>
+              <button
+                class="px-3 sm:px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
+                :class="activePanel === 'github'
+                  ? 'bg-vermilion-500 text-white shadow-sm font-semibold'
+                  : 'text-base-400 hover:text-white'"
+                @click="setPanel('github')"
+              >
+                <Github :size="12" />
+                <span>GitHub Activity</span>
+              </button>
             </div>
 
             <span class="hanko-stamp text-[0.6rem] !py-0.5 !px-2 font-serif">
-              {{ activePanel === 'experience' ? 'CAREER' : 'STACK' }}
+              {{ activePanel === 'experience' ? 'CAREER' : activePanel === 'skills' ? 'STACK' : 'GITHUB' }}
             </span>
           </div>
 
           <!-- ── Panel 1: Career Experience Timeline (From CV) ── -->
           <div
             v-if="activePanel === 'experience'"
-            class="flex-1 overflow-y-auto no-scrollbar py-2 flex flex-col gap-4 pr-1.5"
+            class="flex-1 md:overflow-y-auto no-scrollbar py-2 flex flex-col gap-4 pr-1.5"
           >
             <div
               v-for="exp in experiences"
@@ -398,8 +482,8 @@ onMounted(() => {
 
           <!-- ── Panel 2: Technical Stack & Competencies (From CV) ── -->
           <div
-            v-else
-            class="flex-1 overflow-y-auto no-scrollbar py-2 flex flex-col justify-between gap-3"
+            v-else-if="activePanel === 'skills'"
+            class="flex-1 md:overflow-y-auto no-scrollbar py-2 flex flex-col justify-between gap-3"
           >
             <!-- 2-Column Skill Meters -->
             <div class="grid grid-cols-2 gap-x-5 lg:gap-x-7 gap-y-3">
@@ -477,8 +561,159 @@ onMounted(() => {
             </div>
           </div>
 
+          <!-- ── Panel 3: GitHub Contribution Activity ── -->
+          <div
+            v-else
+            class="flex-1 md:overflow-y-auto no-scrollbar py-2 flex flex-col gap-4"
+          >
+            <div class="github-activity-item rounded-xl border border-white/10 bg-black p-3.5 sm:p-4 flex flex-col gap-3">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+                <div>
+                  <h4 class="text-sm sm:text-base font-display font-bold text-white">
+                    {{ contributionTotal.toLocaleString() }} contributions in the last year
+                  </h4>
+                  <p class="text-[0.7rem] text-base-400 font-serif mt-0.5">
+                    Live from GitHub, refreshed on every deploy.
+                  </p>
+                </div>
+                <a
+                  href="https://github.com/innonazarene"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-xs font-serif text-base-300 hover:text-white transition-colors"
+                >
+                  <Github :size="14" />
+                  <span>@innonazarene</span>
+                </a>
+              </div>
+
+              <div ref="heatmapScrollRef" class="relative overflow-x-auto no-scrollbar pb-1">
+                <div class="min-w-[560px] lg:min-w-0">
+                  <div class="relative h-5 ml-9 mb-1">
+                    <span
+                      v-for="month in contributionMonths"
+                      :key="month.label"
+                      class="absolute text-[0.65rem] font-serif text-base-300"
+                      :style="{ left: `${(month.start / contributionWeeks.length) * 100}%` }"
+                    >
+                      {{ month.label }}
+                    </span>
+                  </div>
+                  <div class="flex gap-2">
+                    <div class="w-7 shrink-0 grid grid-rows-7 gap-0.5 text-[0.62rem] font-serif text-base-300 leading-3">
+                      <span />
+                      <span>Mon</span>
+                      <span />
+                      <span>Wed</span>
+                      <span />
+                      <span>Fri</span>
+                      <span />
+                    </div>
+                    <div
+                      class="grid flex-1 gap-0.5"
+                      :style="{ gridTemplateColumns: `repeat(${contributionWeeks.length}, minmax(0, 1fr))` }"
+                    >
+                      <div
+                        v-for="(week, weekIdx) in contributionWeeks"
+                        :key="weekIdx"
+                        class="grid grid-rows-7 gap-0.5"
+                      >
+                        <span
+                          v-for="(day, dayIdx) in week"
+                          :key="`${weekIdx}-${dayIdx}`"
+                          class="aspect-square w-full rounded-[2px] border"
+                          :class="day ? contributionTone(day.level) : 'border-transparent'"
+                          :title="day ? `${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}` : undefined"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-3 flex items-center justify-end gap-1.5 text-[0.68rem] font-serif text-base-400">
+                    <span>Less</span>
+                    <span
+                      v-for="level in [0, 1, 2, 3, 4]"
+                      :key="level"
+                      class="h-2 w-2 rounded-[2px] border"
+                      :class="contributionTone(level)"
+                    />
+                    <span>More</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-[1fr_1.05fr] gap-4 github-activity-item">
+              <div class="rounded-xl border border-white/10 bg-black p-3.5 sm:p-4 flex flex-col gap-3">
+                <h4 class="text-sm font-display font-bold text-white">
+                  Activity overview
+                </h4>
+                <div class="flex items-start gap-3">
+                  <Github :size="20" class="text-base-400 mt-0.5 shrink-0" />
+                  <p class="text-xs sm:text-sm text-base-200 leading-relaxed">
+                    Contributed to
+                    <template v-for="(repo, repoIdx) in githubRepos" :key="repo">
+                      <a
+                        :href="`https://github.com/${repo}`"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-vermilion-400 hover:text-white font-semibold transition-colors"
+                      >{{ repo }}</a><span v-if="repoIdx < githubRepos.length - 1">, </span>
+                    </template>
+                    and 47 other repositories.
+                  </p>
+                </div>
+              </div>
+
+              <div class="rounded-xl border border-white/10 bg-black p-3.5 sm:p-4 relative min-h-[190px] overflow-hidden">
+                <div class="absolute inset-0 flex items-center justify-center opacity-85">
+                  <svg viewBox="0 0 240 170" class="w-full max-w-[280px] h-full text-emerald-400" aria-hidden="true">
+                    <line x1="120" y1="18" x2="120" y2="152" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    <line x1="35" y1="85" x2="205" y2="85" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    <polygon points="35,85 120,58 120,112" fill="currentColor" opacity="0.42" />
+                    <circle cx="35" cy="85" r="5" fill="black" stroke="currentColor" stroke-width="3" />
+                    <circle cx="120" cy="58" r="5" fill="black" stroke="currentColor" stroke-width="3" />
+                    <circle cx="120" cy="85" r="5" fill="black" stroke="currentColor" stroke-width="3" />
+                    <circle cx="120" cy="112" r="5" fill="black" stroke="currentColor" stroke-width="3" />
+                  </svg>
+                </div>
+                <div class="relative h-full min-h-[190px]">
+                  <div class="absolute left-3 top-1/2 -translate-y-1/2 text-center">
+                    <span class="text-lg font-mono text-base-200">64%</span>
+                    <span class="block text-[0.68rem] text-base-400 font-serif">Commits</span>
+                  </div>
+                  <div class="absolute left-1/2 -translate-x-1/2 top-1 text-center">
+                    <span class="text-lg font-mono text-base-200">21%</span>
+                    <span class="block text-[0.68rem] text-base-400 font-serif">Code review</span>
+                  </div>
+                  <div class="absolute left-1/2 -translate-x-1/2 bottom-1 text-center">
+                    <span class="text-lg font-mono text-base-200">12%</span>
+                    <span class="block text-[0.68rem] text-base-400 font-serif">Pull requests</span>
+                  </div>
+                  <div class="absolute right-3 top-1/2 -translate-y-1/2 text-center">
+                    <span class="text-lg font-mono text-base-200">3%</span>
+                    <span class="block text-[0.68rem] text-base-400 font-serif">Issues</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="github-activity-item grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div
+                v-for="stat in activityStats"
+                :key="stat.label"
+                class="rounded-xl border border-white/10 bg-black p-3 flex items-center gap-2"
+              >
+                <component :is="stat.icon" :size="15" class="text-emerald-400 shrink-0" />
+                <div>
+                  <span class="block text-sm font-mono text-white">{{ stat.value }}%</span>
+                  <span class="block text-[0.62rem] font-serif text-base-400">{{ stat.label }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Bottom Philosophy Quote -->
-          <div class="p-2.5 rounded-lg border border-white/5 bg-base-900/60 flex items-center gap-2.5 shrink-0 mt-2">
+          <div v-if="activePanel !== 'github'" class="p-2.5 rounded-lg border border-white/5 bg-base-900/60 flex items-center gap-2.5 shrink-0 mt-2">
             <span class="text-vermilion-500 font-serif text-xs">◈</span>
             <p class="text-xs text-base-400 font-serif leading-tight">
               Committed to continuous growth, clean documentation, and writing code that endures.

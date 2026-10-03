@@ -50,7 +50,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="relative h-screen w-screen overflow-hidden bg-black text-base-200 selection:bg-vermilion-500/30 selection:text-base-50 select-none"
+    class="relative h-dvh md:h-screen w-screen overflow-hidden bg-black text-base-200 selection:bg-vermilion-500/30 selection:text-base-50 select-none"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd"
   >
@@ -62,13 +62,13 @@ onUnmounted(() => {
 
     <!-- Horizontal Slides Container (300vw track that slides left/right) -->
     <main
-      class="flex w-[300vw] h-screen transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+      class="flex w-[300vw] h-dvh md:h-screen transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
       :style="{ transform: `translate3d(-${tabIndex * 100}vw, 0px, 0px)` }"
     >
       <!-- Slide 1: Home / Hero -->
       <section
         id="home"
-        class="w-screen h-screen shrink-0 relative overflow-hidden flex flex-col pt-5 pb-16 px-4 sm:px-6 md:pl-28 lg:pl-32"
+        class="w-screen h-dvh md:h-screen shrink-0 relative overflow-y-auto overflow-x-hidden md:overflow-hidden no-scrollbar flex flex-col pt-5 pb-24 md:pb-16 px-4 sm:px-6 md:pl-28 lg:pl-32"
         :aria-hidden="currentTab !== 'home'"
       >
         <PortfolioHero />
@@ -77,7 +77,7 @@ onUnmounted(() => {
       <!-- Slide 2: About Me -->
       <section
         id="about-slide"
-        class="w-screen h-screen shrink-0 relative overflow-hidden flex flex-col pt-5 pb-16 px-4 sm:px-6 md:pl-28 lg:pl-32"
+        class="w-screen h-dvh md:h-screen shrink-0 relative overflow-y-auto overflow-x-hidden md:overflow-hidden no-scrollbar flex flex-col pt-5 pb-24 md:pb-16 px-4 sm:px-6 md:pl-28 lg:pl-32"
         :aria-hidden="currentTab !== 'about'"
       >
         <PortfolioAbout />
@@ -86,7 +86,7 @@ onUnmounted(() => {
       <!-- Slide 3: Projects -->
       <section
         id="projects-slide"
-        class="w-screen h-screen shrink-0 relative overflow-hidden flex flex-col pt-5 pb-16 px-4 sm:px-6 md:pl-28 lg:pl-32"
+        class="w-screen h-dvh md:h-screen shrink-0 relative overflow-y-auto overflow-x-hidden md:overflow-hidden no-scrollbar flex flex-col pt-5 pb-24 md:pb-16 px-4 sm:px-6 md:pl-28 lg:pl-32"
         :aria-hidden="currentTab !== 'projects'"
       >
         <PortfolioProjects />
@@ -104,6 +104,7 @@ body,
 #__nuxt,
 #app {
   height: 100%;
+  min-height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -113,6 +114,15 @@ body,
   color-scheme: dark !important;
   color: #c8c3b7;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+@supports (height: 100dvh) {
+  html,
+  body,
+  #__nuxt,
+  #app {
+    height: 100dvh;
+  }
 }
 
 img,

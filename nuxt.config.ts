@@ -18,6 +18,54 @@ try {
   // Ignore
 }
 
+// Canonical site URL. Override with NUXT_PUBLIC_SITE_URL when a custom domain is attached.
+const SITE_URL = (process.env.NUXT_PUBLIC_SITE_URL || 'https://rustompedales-portfolio.vercel.app').replace(/\/$/, '')
+const SITE_TITLE = 'Rustom Pedales Jr. | Full-Stack Developer (Laravel, Vue)'
+const SITE_DESC = 'Senior Full-Stack Developer and Application Architect in Butuan City, Philippines. 17+ shipped systems with Laravel, React, Vue/Nuxt and TypeScript.'
+const OG_IMAGE = `${SITE_URL}/og-image.png`
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: 'Rustom Pedales Jr.',
+      alternateName: ['Rustom Ramos Pedales Jr.', 'Tom Pedales'],
+      url: SITE_URL,
+      image: `${SITE_URL}/img/profile.png`,
+      jobTitle: 'Senior Full-Stack Developer & Application Architect',
+      description: SITE_DESC,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Butuan City',
+        addressRegion: 'Agusan del Norte',
+        addressCountry: 'PH',
+      },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'ACLC College of Butuan' },
+      knowsAbout: ['Laravel', 'PHP', 'React', 'Vue.js', 'Nuxt', 'TypeScript', 'Tailwind CSS', 'REST API design', 'MySQL', 'Application architecture'],
+      sameAs: ['https://github.com/innonazarene'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'Rustom Pedales Jr. Portfolio',
+      description: SITE_DESC,
+      inLanguage: 'en',
+      publisher: { '@id': `${SITE_URL}/#person` },
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': `${SITE_URL}/#profile`,
+      url: SITE_URL,
+      name: SITE_TITLE,
+      mainEntity: { '@id': `${SITE_URL}/#person` },
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+  ],
+}
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   ssr: true,
@@ -52,25 +100,42 @@ export default defineNuxtConfig({
           children: 'html, body, #__nuxt, #app { background-color: #000000 !important; background: #000000 !important; color-scheme: dark; } img, picture, video, canvas { background-color: #000000 !important; } svg { background: transparent !important; background-color: transparent !important; }',
         },
       ],
-      title: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio',
+      title: SITE_TITLE,
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'theme-color', content: '#000000' },
-        { name: 'title', content: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio' },
-        { name: 'description', content: 'Crafting digital experiences with Laravel, Vue.js, Nuxt & modern web technologies. Guided by precision, clean architecture, and modern aesthetics.' },
-        // Open Graph / Facebook
+        { name: 'title', content: SITE_TITLE },
+        { name: 'description', content: SITE_DESC },
+        { name: 'author', content: 'Rustom Pedales Jr.' },
+        { name: 'keywords', content: 'Rustom Pedales Jr., full-stack developer, Laravel developer, Vue developer, Nuxt, React developer, application architect, Butuan City, Philippines, freelance web developer, TypeScript, portfolio' },
+        { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+        { name: 'format-detection', content: 'telephone=no' },
+        // Open Graph
         { property: 'og:type', content: 'website' },
-        { property: 'og:title', content: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio' },
-        { property: 'og:description', content: 'Crafting digital experiences with Laravel, Vue.js, Nuxt & modern web technologies.' },
-        { property: 'og:image', content: '/pwa-icon-512x512.png' },
-        // Twitter
+        { property: 'og:site_name', content: 'Rustom Pedales Jr. Portfolio' },
+        { property: 'og:locale', content: 'en_US' },
+        { property: 'og:url', content: SITE_URL },
+        { property: 'og:title', content: SITE_TITLE },
+        { property: 'og:description', content: SITE_DESC },
+        { property: 'og:image', content: OG_IMAGE },
+        { property: 'og:image:secure_url', content: OG_IMAGE },
+        { property: 'og:image:type', content: 'image/png' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { property: 'og:image:alt', content: 'Rustom Pedales Jr., Senior Full-Stack Developer and Application Architect' },
+        // Twitter / X
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: 'Rustom Pedales Jr. — Full-Stack Developer Portfolio' },
-        { name: 'twitter:description', content: 'Crafting digital experiences with Laravel, Vue.js, Nuxt & modern web technologies.' },
-        { name: 'twitter:image', content: '/pwa-icon-512x512.png' }
+        { name: 'twitter:title', content: SITE_TITLE },
+        { name: 'twitter:description', content: SITE_DESC },
+        { name: 'twitter:image', content: OG_IMAGE },
+        { name: 'twitter:image:alt', content: 'Rustom Pedales Jr., Senior Full-Stack Developer and Application Architect' },
+      ],
+      script: [
+        { type: 'application/ld+json', innerHTML: JSON.stringify(personJsonLd), tagPosition: 'head' },
       ],
       link: [
+        { rel: 'canonical', href: SITE_URL },
         { rel: 'icon', type: 'image/png', href: '/pwa-icon-192x192.png' },
         { rel: 'apple-touch-icon', href: '/pwa-icon-512x512.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

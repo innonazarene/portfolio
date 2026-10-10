@@ -64,7 +64,7 @@ const experiences = [
     steps: null,
     description: 'Building the City’s Human Resource Management System (CHRMS), a React front end backed by a Laravel REST API, digitizing personnel records and HR workflows across city departments.',
     details: [
-      'Own architecture decisions end to end: database schema, REST API design, and front-end delivery.',
+      'Designed and collaborated on architecture end to end: database schema, REST API design, and front-end delivery.',
       'Partner with HR and department stakeholders to translate manual government processes into digital workflows.',
     ],
   },
@@ -310,7 +310,7 @@ onMounted(() => {
               <strong class="text-base-100 font-medium">Laravel, React.js, Vue.js, Nuxt 4, and TypeScript</strong>.
             </p>
             <p>
-              Owns architecture from database schema through deployment, and works hands-on with <strong class="text-base-100 font-medium">LLM tool use, MCP servers, agent orchestration (Claude Code, Hermes), and local model serving</strong>. Advanced from junior developer to Application Architect within five years.
+              Designs and collaborates on architecture from database schema through deployment, and works hands-on with <strong class="text-base-100 font-medium">LLM tool use, MCP servers, agent orchestration (Claude Code, Hermes), and local model serving</strong>. Advanced from junior developer to Application Architect within five years.
             </p>
           </div>
 

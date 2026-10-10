@@ -96,16 +96,17 @@ const experiences = [
     ],
   },
   {
-    company: 'Independent Consulting',
-    role: 'Freelance Web Developer',
+    company: 'Independent AI Systems & Consulting',
+    role: 'AI Systems Engineer / Consultant',
     period: '2020 – Present',
     location: 'Butuan City, Philippines',
     isCurrent: false,
-    badge: 'Client Systems',
+    badge: 'Agentic AI',
     steps: null,
-    description: 'Delivering custom full-stack web solutions and maintaining ongoing client systems alongside full-time architectural work.',
+    description: 'Design and operate agentic AI systems and automation workflows alongside ongoing full-stack client work.',
     details: [
-      'Developed Altera Barangay & City App, Sigma Accounting, and Web3 Algorand Wallet integrations.',
+      'Build LLM tool-use and MCP servers; orchestrate agents with Claude Code and Hermes.',
+      'Serve and route local LLMs and automate workflows with scheduled jobs and webhooks.',
     ],
   },
 ]
@@ -115,7 +116,7 @@ const skillsCol1 = [
   { name: 'PHP & Laravel',       level: 95, exp: 'Primary', category: 'Backend' },
   { name: 'React.js',            level: 90, exp: 'Advanced', category: 'Frontend' },
   { name: 'Vue.js / Nuxt 4',     level: 90, exp: 'Expert', category: 'Frontend' },
-  { name: 'JavaScript / TS',     level: 88, exp: 'Advanced', category: 'Core' },
+  { name: 'TypeScript',           level: 88, exp: '3 yrs', category: 'Core' },
   { name: 'Tailwind CSS',        level: 92, exp: 'Expert', category: 'UI' },
 ]
 
@@ -124,13 +125,14 @@ const skillsCol2 = [
   { name: 'REST API Architecture', level: 94, exp: 'Architect', category: 'APIs' },
   { name: 'Filament PHP / Livewire', level: 85, exp: 'Specialist', category: 'Full-Stack' },
   { name: 'Git, GitHub & CI/CD',   level: 88, exp: 'Proficient', category: 'DevOps' },
-  { name: 'CodeIgniter & jQuery',  level: 80, exp: 'Enterprise', category: 'Legacy' },
+  { name: 'AI & Agentic Systems',  level: 85, exp: 'Architect', category: 'AI' },
 ]
 
 const cvTools = [
-  { label: 'Languages', items: ['PHP', 'JavaScript', 'SQL', 'HTML', 'CSS'] },
+  { label: 'Languages', items: ['PHP', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'] },
   { label: 'Frameworks', items: ['Laravel', 'React.js', 'Vue.js', 'Nuxt 4', 'Tailwind CSS', 'CodeIgniter'] },
   { label: 'Practices', items: ['REST API Design', 'Database Schema', 'CI/CD', 'Git/GitHub', 'Responsive UI'] },
+  { label: 'AI & Agentic', items: ['LLM APIs', 'MCP Servers', 'Claude Code', 'Agent Orchestration', 'Prompt Engineering', 'Model Routing', 'Local LLM Serving'] },
 ]
 
 const highlights = [
@@ -138,7 +140,7 @@ const highlights = [
   { icon: Code2,          label: 'REST API & DB Architecture' },
   { icon: Rocket,         label: 'Promoted 2x to Architect' },
   { icon: GraduationCap,  label: 'BS Computer Science' },
-  { icon: Zap,            label: 'Former IT Instructor' },
+  { icon: Zap,            label: 'AI & Agentic Systems' },
 ]
 
 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -290,9 +292,9 @@ onMounted(() => {
                 Rustom Ramos Pedales Jr.
               </h3>
               <p class="text-xs sm:text-sm font-serif flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                <span class="text-vermilion-400 font-medium">Senior Full Stack Developer</span>
+                <span class="text-vermilion-400 font-medium">AI Systems Architect</span>
                 <span class="text-base-500">•</span>
-                <span class="text-base-300">Application Architect</span>
+                <span class="text-base-300">Full-Stack Engineer</span>
               </p>
               <div class="flex items-center gap-1.5 text-[0.7rem] text-base-400 mt-1 font-mono">
                 <MapPin :size="11" class="text-vermilion-500 shrink-0" />
@@ -304,11 +306,11 @@ onMounted(() => {
           <!-- Professional CV Narrative -->
           <div class="flex flex-col gap-2 text-base-300 text-xs sm:text-[0.82rem] leading-relaxed py-1">
             <p>
-              Senior Full-Stack Web Developer &amp; Application Architect specialized in engineering high-reliability public sector enterprise platforms, academic systems, and reactive user interfaces with
-              <strong class="text-base-100 font-medium">Laravel, React.js, Vue.js, and Nuxt 4</strong>.
+              AI Systems Architect &amp; full-stack engineer who designs and builds AI-native, agentic systems end to end, on a deep foundation of
+              <strong class="text-base-100 font-medium">Laravel, React.js, Vue.js, Nuxt 4, and TypeScript</strong>.
             </p>
             <p>
-              Proven engineering progression: advanced from junior developer to <strong class="text-base-100 font-medium">Application Architect</strong> within five years, owning modular database schemas, RESTful API integrations, and translating manual workflows into high-impact digital systems.
+              Owns architecture from database schema through deployment, and works hands-on with <strong class="text-base-100 font-medium">LLM tool use, MCP servers, agent orchestration (Claude Code, Hermes), and local model serving</strong>. Advanced from junior developer to Application Architect within five years.
             </p>
           </div>
 

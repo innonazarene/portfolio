@@ -113,26 +113,29 @@ const experiences = [
 
 // Technical proficiency categories from CV
 const skillsCol1 = [
+  { name: 'AI Systems Architecture', level: 90, exp: 'Architect', category: 'AI' },
+  { name: 'Multi-Agent Orchestration', level: 88, exp: 'Specialist', category: 'AI' },
+  { name: 'LLM Application Development', level: 85, exp: 'Advanced', category: 'AI' },
   { name: 'PHP & Laravel',       level: 95, exp: 'Primary', category: 'Backend' },
   { name: 'React.js',            level: 90, exp: 'Advanced', category: 'Frontend' },
   { name: 'Vue.js / Nuxt 4',     level: 90, exp: 'Expert', category: 'Frontend' },
-  { name: 'TypeScript',           level: 88, exp: '3 yrs', category: 'Core' },
-  { name: 'Tailwind CSS',        level: 92, exp: 'Expert', category: 'UI' },
 ]
 
 const skillsCol2 = [
-  { name: 'SQL & Database Design', level: 90, exp: 'Primary', category: 'Data' },
   { name: 'REST API Architecture', level: 94, exp: 'Architect', category: 'APIs' },
-  { name: 'Filament PHP / Livewire', level: 85, exp: 'Specialist', category: 'Full-Stack' },
+  { name: 'SQL & Database Design', level: 90, exp: 'Primary', category: 'Data' },
+  { name: 'Tailwind CSS',        level: 92, exp: 'Expert', category: 'UI' },
+  { name: 'TypeScript',           level: 88, exp: '3 yrs', category: 'Core' },
   { name: 'Git, GitHub & CI/CD',   level: 88, exp: 'Proficient', category: 'DevOps' },
-  { name: 'AI & Agentic Systems',  level: 85, exp: 'Architect', category: 'AI' },
+  { name: 'Filament PHP / Livewire', level: 85, exp: 'Specialist', category: 'Full-Stack' },
 ]
 
 const cvTools = [
+  { label: 'AI Orchestration', items: ['MCP Servers', 'Multi-Agent Orchestration', 'Agentic Workflow Design', 'LLM Routing', 'Tool / Function Calling', 'Human-in-the-Loop', 'Agent Memory & State'] },
+  { label: 'AI Engineering', items: ['LLM APIs (Anthropic/OpenAI/DeepSeek)', 'Prompt & Context Engineering', 'Structured Output', 'Local LLM Serving (llama.cpp)', 'Evals & Observability', 'Token Cost Optimization'] },
   { label: 'Languages', items: ['PHP', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'] },
   { label: 'Frameworks', items: ['Laravel', 'React.js', 'Vue.js', 'Nuxt 4', 'Tailwind CSS', 'CodeIgniter'] },
   { label: 'Practices', items: ['REST API Design', 'Database Schema', 'CI/CD', 'Git/GitHub', 'Responsive UI'] },
-  { label: 'AI & Agentic', items: ['LLM APIs', 'MCP Servers', 'Claude Code', 'Agent Orchestration', 'Prompt Engineering', 'Model Routing', 'Local LLM Serving'] },
 ]
 
 const highlights = [
@@ -140,7 +143,7 @@ const highlights = [
   { icon: Code2,          label: 'REST API & DB Architecture' },
   { icon: Rocket,         label: 'Promoted 2x to Architect' },
   { icon: GraduationCap,  label: 'BS Computer Science' },
-  { icon: Zap,            label: 'AI & Agentic Systems' },
+  { icon: Zap,            label: 'AI Orchestration & Architecture' },
 ]
 
 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -551,7 +554,7 @@ onMounted(() => {
                 :key="grp.label"
                 class="flex flex-wrap items-center gap-1.5 text-[0.7rem]"
               >
-                <span class="font-serif text-vermilion-400 font-medium w-20 shrink-0">{{ grp.label }}:</span>
+                <span class="font-serif text-vermilion-400 font-medium w-28 shrink-0">{{ grp.label }}:</span>
                 <span
                   v-for="item in grp.items"
                   :key="item"

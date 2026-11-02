@@ -13,12 +13,21 @@ import gsap from 'gsap'
 const { currentTab } = usePortfolioNavigation()
 
 const categories = [
-  { id: 'All',        label: 'All Works',           shortLabel: 'All Works' },
-  { id: 'Web App',    label: 'Web Applications',    shortLabel: 'Web Apps' },
-  { id: 'Mobile App', label: 'Mobile Applications', shortLabel: 'Mobile Apps' },
+  { id: 'All',             label: 'All Works',           shortLabel: 'All Works' },
+  { id: 'Web App',         label: 'Web Applications',    shortLabel: 'Web Apps' },
+  { id: 'Mobile App',      label: 'Mobile Applications', shortLabel: 'Mobile Apps' },
+  { id: 'AI & Automation', label: 'AI & Automation',     shortLabel: 'AI Systems' },
+  { id: 'Tools & Games',   label: 'Tools & Games',       shortLabel: 'Tools' },
 ]
 
 const activeFilter = ref('All')
+
+const categoryBadge = (cat: string) => {
+  if (cat === 'Mobile App') return 'APP'
+  if (cat === 'AI & Automation') return 'AI'
+  if (cat === 'Tools & Games') return 'LAB'
+  return 'WEB'
+}
 
 const projectsData = [
   {
@@ -205,6 +214,94 @@ const projectsData = [
     techs: ['Laravel', 'PHP', 'MySQL', 'Tailwind CSS', 'ReactJS', 'API', 'Back-end', 'Front-end'],
     folder: 'chrms',
     imageCount: 1,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 18,
+    title: 'PhilFarming / FarmLync Platform',
+    category: 'Web App',
+    description: 'Multi-tenant farm operations CRM and unified POS for Philippine agribusiness, shipped as a full product surface: the React/Inertia operations app (livestock, batches, health, billing, POS sync), the public marketing site, a documentation portal, and a live service-status page with 90-day uptime bars.',
+    techs: ['Laravel', 'Inertia.js', 'React', 'MySQL', 'Multi-Tenancy', 'Livewire', 'Tailwind CSS', 'REST API'],
+    folder: 'philfarming',
+    imageCount: 8,
+    liveUrl: 'https://philfarming.com',
+    repoUrl: '#',
+  },
+  {
+    id: 22,
+    title: 'BCSAT TBL Examination & Ranking System',
+    category: 'Web App',
+    description: 'Online written examination, practical exam grading, and applicant ranking system built for the Butuan City School of Arts and Trades specialization process.',
+    techs: ['Laravel', 'Inertia.js', 'React', 'MySQL', 'Tailwind CSS'],
+    folder: 'bcsat-exam',
+    imageCount: 1,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 24,
+    title: 'Jobs Tolentino Coaching Platform',
+    category: 'Web App',
+    description: 'Practice site for a relationship coaching, counseling, and training service: guided intake by relationship type, appointment request flow with admin review, and email confirmation before sessions are booked.',
+    techs: ['Laravel', 'Inertia.js', 'MySQL', 'Tailwind CSS', 'cPanel Deploy'],
+    folder: 'jobstolentino',
+    imageCount: 3,
+    liveUrl: 'https://jobstolentino.com',
+    repoUrl: '#',
+  },
+  {
+    id: 27,
+    title: 'Multi-Agent AI Orchestration Platform',
+    category: 'AI & Automation',
+    description: 'Agent infrastructure running MCP tool servers, multi-agent task dispatch with human-in-the-loop review gates, severity-based LLM routing across providers, and quantized local model serving.',
+    techs: ['MCP', 'Claude Code', 'Python', 'llama.cpp', 'LLM Routing', 'Agent Orchestration'],
+    folder: 'ai-orchestration',
+    imageCount: 1,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 28,
+    title: 'Automated YouTube Content Pipeline',
+    category: 'AI & Automation',
+    description: 'Unattended cron-driven production pipeline that generates an original song, renders a full animated music video frame by frame, and publishes to YouTube without human intervention.',
+    techs: ['Node.js', 'FFmpeg', 'AI Generation', 'Cron', 'YouTube API'],
+    folder: 'youtube-pipeline',
+    imageCount: 3,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 29,
+    title: 'Product-Demo Shorts Generator',
+    category: 'AI & Automation',
+    description: 'Automated vertical-video generator that turns a product listing into a 1080x1920 YouTube Short under 60 seconds, with scripted timeline, deterministic rendering, and upload.',
+    techs: ['Python', 'FFmpeg', 'Node.js', 'Video Automation', 'YouTube API'],
+    folder: 'shorts-generator',
+    imageCount: 1,
+    liveUrl: '#',
+    repoUrl: '#',
+  },
+  {
+    id: 30,
+    title: 'QGuard macOS Utility',
+    category: 'Tools & Games',
+    description: 'Native macOS menu-bar utility that intercepts Cmd-Q and Cmd-W so muscle memory cannot close a running game or session. Built and signed without Xcode.',
+    techs: ['Swift', 'AppKit', 'macOS', 'Menu Bar App'],
+    folder: 'qguard',
+    imageCount: 2,
+    liveUrl: '#',
+    repoUrl: 'https://github.com/innonazarene',
+  },
+  {
+    id: 31,
+    title: 'Mactan 1521',
+    category: 'Tools & Games',
+    description: 'Third-person web fighting game on the 1521 Battle of Mactan. Three.js with no build step, Blender-generated character models, wave progression tuned against measured balance curves, and online co-op through a Cloudflare Durable Object relay.',
+    techs: ['Three.js', 'WebGL', 'JavaScript', 'Blender', 'Cloudflare Workers', 'Durable Objects'],
+    folder: 'mactan-1521',
+    imageCount: 7,
     liveUrl: '#',
     repoUrl: '#',
   },
@@ -437,7 +534,7 @@ onMounted(() => {
             Things I Have <span class="text-vermilion-500">Engineered</span>
           </h2>
           <p class="text-base-300 font-serif text-xs sm:text-sm max-w-xl leading-relaxed">
-            A curated collection of 17 systems and applications engineered with precision. Click any project to inspect screenshots and details.
+            A curated collection of 25 systems and applications engineered with precision. Click any project to inspect screenshots and details.
           </p>
         </div>
 
@@ -620,7 +717,7 @@ onMounted(() => {
             <div class="flex items-center justify-between gap-4 pb-3 border-b border-white/10">
               <div class="flex items-center gap-3">
                 <span class="hanko-stamp text-xs !py-0.5 !px-2 font-serif">
-                  {{ selectedModalProject.category === 'Mobile App' ? 'APP' : 'WEB' }}
+                  {{ categoryBadge(selectedModalProject.category) }}
                 </span>
                 <span class="text-xs font-serif uppercase tracking-widest text-vermilion-500">
                   {{ selectedModalProject.category }}

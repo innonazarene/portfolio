@@ -85,7 +85,7 @@ onMounted(() => {
               class="zen-btn-primary w-full sm:w-auto !py-2.5 !px-2 sm:!px-7 text-[0.72rem] sm:text-xs md:text-sm cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap text-center"
               @click="goToTab('projects')"
             >
-              <span>Explore 17 Systems</span>
+              <span>Explore 25 Systems</span>
               <ArrowRight :size="14" class="shrink-0" />
             </button>
             <a
@@ -117,12 +117,12 @@ onMounted(() => {
         <!-- Card 1: 17+ Production Systems -->
         <div class="hero-fade-in washi-card p-3.5 sm:p-4 lg:p-4.5 rounded-2xl border border-white/10 bg-black flex flex-col justify-between text-left hover:border-white/20 transition-colors duration-300 gap-2">
           <div>
-            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.2rem] font-normal tracking-wide text-white leading-none">17+</span>
+            <span class="font-katsuno text-2xl sm:text-3xl lg:text-[2.2rem] font-normal tracking-wide text-white leading-none">25+</span>
           </div>
 
           <div class="py-0.5">
-            <span class="text-xs sm:text-[0.78rem] font-mono text-base-200 block">12 Web &bull; 5 Mobile Apps</span>
-            <span class="text-[0.68rem] sm:text-[0.72rem] font-mono text-emerald-400 mt-0.5 block">100% Shipped to Production</span>
+            <span class="text-xs sm:text-[0.78rem] font-mono text-base-200 block">17 Web &bull; 3 Mobile &bull; 5 AI/Tools</span>
+            <span class="text-[0.68rem] sm:text-[0.72rem] font-mono text-emerald-400 mt-0.5 block">Government &bull; Enterprise &bull; AI</span>
           </div>
 
           <div class="pt-2 border-t border-white/5">

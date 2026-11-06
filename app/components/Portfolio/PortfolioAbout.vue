@@ -265,11 +265,11 @@ onMounted(() => {
       </div>
 
       <!-- 2-Card Layout (Expands vertically to match sidebar bottom) -->
-      <div class="grid lg:grid-cols-[1fr_1.15fr] gap-4 lg:gap-6 items-stretch flex-1 md:min-h-0">
+      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-4 lg:gap-6 items-stretch flex-1 md:min-h-0 min-w-0">
         <!-- ── Left Card: Bio, Education & Alma Mater ── -->
         <div
           ref="bioCardRef"
-          class="washi-card p-4 sm:p-5 lg:p-6 flex flex-col justify-between md:h-full md:overflow-y-auto no-scrollbar gap-3"
+          class="washi-card min-w-0 p-4 sm:p-5 lg:p-6 flex flex-col justify-between md:h-full md:overflow-y-auto no-scrollbar gap-3"
         >
           <!-- Profile Header -->
           <div class="flex items-center gap-4 pb-3 border-b border-white/10 shrink-0">
@@ -361,11 +361,11 @@ onMounted(() => {
         <!-- ── Right Card: Dual-Tab Deck (Career Experience & Tech Stack) ── -->
         <div
           ref="skillsCardRef"
-          class="washi-card p-4 sm:p-5 lg:p-6 flex flex-col justify-between md:h-full md:overflow-hidden"
+          class="washi-card min-w-0 p-4 sm:p-5 lg:p-6 flex flex-col justify-between md:h-full md:overflow-hidden"
         >
           <!-- Top Switcher Header (Career Experience vs Technical Proficiency) -->
-          <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
-            <div class="flex items-center gap-1.5 p-1 rounded-full bg-black border border-white/10 overflow-x-auto no-scrollbar max-w-full">
+          <div class="flex items-center justify-between gap-2 pb-3 border-b border-white/10 shrink-0 min-w-0">
+            <div class="flex items-center gap-1.5 p-1 rounded-full bg-black border border-white/10 overflow-x-auto no-scrollbar min-w-0 max-w-full">
               <button
                 class="px-3 sm:px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
                 :class="activePanel === 'experience'
@@ -374,7 +374,7 @@ onMounted(() => {
                 @click="setPanel('experience')"
               >
                 <Briefcase :size="12" />
-                <span>Career Experience</span>
+                <span class="sm:hidden">Career</span><span class="hidden sm:inline">Career Experience</span>
               </button>
               <button
                 class="px-3 sm:px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
@@ -384,7 +384,7 @@ onMounted(() => {
                 @click="setPanel('skills')"
               >
                 <Code2 :size="12" />
-                <span>Technical Stack</span>
+                <span class="sm:hidden">Stack</span><span class="hidden sm:inline">Technical Stack</span>
               </button>
               <button
                 class="px-3 sm:px-3.5 py-1 rounded-full text-xs font-serif font-medium transition-all duration-300 cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
@@ -394,11 +394,11 @@ onMounted(() => {
                 @click="setPanel('github')"
               >
                 <Github :size="12" />
-                <span>GitHub Activity</span>
+                <span class="sm:hidden">GitHub</span><span class="hidden sm:inline">GitHub Activity</span>
               </button>
             </div>
 
-            <span class="hanko-stamp text-[0.6rem] !py-0.5 !px-2 font-serif">
+            <span class="hidden sm:inline-flex hanko-stamp text-[0.6rem] !py-0.5 !px-2 font-serif shrink-0">
               {{ activePanel === 'experience' ? 'CAREER' : activePanel === 'skills' ? 'STACK' : 'GITHUB' }}
             </span>
           </div>
@@ -406,7 +406,7 @@ onMounted(() => {
           <!-- ── Panel 1: Career Experience Timeline (From CV) ── -->
           <div
             v-if="activePanel === 'experience'"
-            class="flex-1 md:overflow-y-auto no-scrollbar py-2 flex flex-col gap-4 pr-1.5"
+            class="flex-1 min-w-0 md:overflow-y-auto no-scrollbar py-2 flex flex-col gap-4 pr-1.5"
           >
             <div
               v-for="exp in experiences"
@@ -446,7 +446,7 @@ onMounted(() => {
               </div>
 
               <!-- Second Row: Company & Location -->
-              <div class="flex items-center gap-2 text-xs font-serif">
+              <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs font-serif">
                 <span class="text-vermilion-400 font-medium tracking-wide">{{ exp.company }}</span>
                 <span class="text-base-600">•</span>
                 <span class="text-base-400 font-mono text-[0.72rem]">{{ exp.location }}</span>
@@ -488,12 +488,12 @@ onMounted(() => {
           <!-- ── Panel 2: Technical Stack & Competencies (From CV) ── -->
           <div
             v-else-if="activePanel === 'skills'"
-            class="flex-1 md:overflow-y-auto no-scrollbar py-2 flex flex-col justify-between gap-3"
+            class="flex-1 min-w-0 md:overflow-y-auto no-scrollbar py-2 flex flex-col justify-between gap-3"
           >
             <!-- 2-Column Skill Meters -->
-            <div class="grid grid-cols-2 gap-x-5 lg:gap-x-7 gap-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-5 lg:gap-x-7 gap-y-3 min-w-0">
               <!-- Column 1 -->
-              <div class="flex flex-col justify-between gap-2.5">
+              <div class="flex flex-col justify-between gap-2.5 min-w-0">
                 <div
                   v-for="skill in skillsCol1"
                   :key="skill.name"
@@ -520,7 +520,7 @@ onMounted(() => {
               </div>
 
               <!-- Column 2 -->
-              <div class="flex flex-col justify-between gap-2.5">
+              <div class="flex flex-col justify-between gap-2.5 min-w-0">
                 <div
                   v-for="skill in skillsCol2"
                   :key="skill.name"
@@ -554,11 +554,11 @@ onMounted(() => {
                 :key="grp.label"
                 class="flex flex-wrap items-center gap-1.5 text-[0.7rem]"
               >
-                <span class="font-serif text-vermilion-400 font-medium w-28 shrink-0">{{ grp.label }}:</span>
+                <span class="font-serif text-vermilion-400 font-medium w-full sm:w-28 shrink-0">{{ grp.label }}:</span>
                 <span
                   v-for="item in grp.items"
                   :key="item"
-                  class="px-2 py-0.5 rounded bg-black border border-white/10 text-base-200 font-mono text-[0.68rem]"
+                  class="max-w-full break-words px-2 py-0.5 rounded bg-black border border-white/10 text-base-200 font-mono text-[0.68rem]"
                 >
                   {{ item }}
                 </span>
@@ -569,7 +569,7 @@ onMounted(() => {
           <!-- ── Panel 3: GitHub Contribution Activity ── -->
           <div
             v-else
-            class="flex-1 md:overflow-y-auto no-scrollbar py-2 flex flex-col gap-4"
+            class="flex-1 min-w-0 md:overflow-y-auto no-scrollbar py-2 flex flex-col gap-4"
           >
             <div class="github-activity-item rounded-xl border border-white/10 bg-black p-3.5 sm:p-4 flex flex-col gap-3">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
